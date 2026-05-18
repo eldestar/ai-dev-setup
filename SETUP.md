@@ -433,7 +433,17 @@ else
 fi
 ```
 
-### 3.6 Design Skills
+### 3.6 Superpowers (obra)
+
+```bash
+echo "=== Superpowers by obra ==="
+echo "→ MANUAL STEP QUEUED — must run inside a 'claude' CLI session:"
+echo "   /plugin marketplace add obra/superpowers-marketplace"
+echo "   /plugin install superpowers@superpowers-marketplace"
+echo "Note: also works with Codex CLI natively — uses same ~/.claude/skills/ folder"
+```
+
+### 3.7 Design Skills
 
 ```bash
 npx skills add pbakaus/impeccable  2>&1 | tail -3
@@ -441,7 +451,7 @@ npx skills add emilkowalski/skill  2>&1 | tail -3
 echo "→ Manual step queued: run /teach-impeccable once per new project"
 ```
 
-### 3.7 flow-nexus MCP
+### 3.8 flow-nexus MCP
 
 ```bash
 echo "=== Flow Nexus ==="
@@ -843,7 +853,11 @@ echo "║  8. Obsidian: download from obsidian.md                      ║"
 echo "║     → Open ~/vault/ as vault                                 ║"
 echo "║     → Install plugins: Dataview, Templater, Git, QuickAdd    ║"
 echo "║                                                              ║"
-echo "║  9. /teach-impeccable (once per new project, in claude)      ║"
+echo "║  9. Same claude session — Superpowers:                       ║"
+echo "║     /plugin marketplace add obra/superpowers-marketplace     ║"
+echo "║     /plugin install superpowers@superpowers-marketplace      ║"
+echo "║                                                              ║"
+echo "║  10. /teach-impeccable (once per new project, in claude)     ║"
 echo "║                                                              ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
 ```
@@ -891,6 +905,10 @@ echo "Skills: $(ls ~/.claude/skills/ 2>/dev/null | wc -l)"
 echo "Agents: $(ls ~/.claude/agents/ 2>/dev/null | wc -l)"
 
 echo ""
+echo "=== Plugins (run inside a claude session to verify) ==="
+echo "Check: /plugin list | grep -E 'superpowers|codex|ruflo'"
+
+echo ""
 echo "Results: $PASS passed, $FAIL failed"
 [[ $FAIL -eq 0 ]] && echo "✓ Setup complete!" || echo "⚠ $FAIL tools missing — check errors above"
 ```
@@ -908,6 +926,11 @@ markitdown document.pdf > ~/vault/raw/document.md
 
 # Search vault
 rg "search term" ~/vault/
+
+# Superpowers — start every feature here
+/superpowers:brainstorm           # always run before writing any code
+/superpowers:write-plan           # full implementation roadmap
+/superpowers:execute-plan         # autonomous subagent implementation
 
 # Claude + Codex dynamic duo
 /codex:adversarial-review [plan]  # review plan before building
