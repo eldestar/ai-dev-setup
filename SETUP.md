@@ -7,9 +7,9 @@
 ## HOW TO USE THIS FILE
 
 ```
-claude "Read SETUP_V2.md, run the system detection, then execute all phases.
+claude "Read SETUP.md, run the system detection, then execute all phases.
 Ask me before each phase. Prompt for manual actions only after all
-automatable steps are done. Log everything to SETUP_LOG_V2.md."
+automatable steps are done. Log everything to SETUP_LOG.md."
 ```
 
 ### CLI vs App — Which to Use for Initial Setup
@@ -32,7 +32,7 @@ Once setup is complete, the Claude Code app works for everything else.
 - ALWAYS verify each install succeeded before moving to the next
 - If a step fails: log the error, skip it, continue — do not abort the phase
 - Batch ALL manual steps and present them together at the very end
-- Log all completed steps to SETUP_LOG_V2.md with timestamps
+- Log all completed steps to SETUP_LOG.md with timestamps
 
 ---
 
@@ -267,7 +267,7 @@ uv --version
 pipx --version
 ```
 
-**Phase 1 complete. Log to SETUP_LOG_V2.md.**
+**Phase 1 complete. Log to SETUP_LOG.md.**
 
 ---
 
@@ -387,7 +387,7 @@ if ! grep -q "ANTHROPIC_API_KEY" "$SHELL_RC" 2>/dev/null; then
 fi
 ```
 
-**Phase 2 complete. Log to SETUP_LOG_V2.md.**
+**Phase 2 complete. Log to SETUP_LOG.md.**
 
 ---
 
@@ -471,7 +471,7 @@ echo "   npx flow-nexus@latest init -n 'dev-environment' -t swarm --claude"
 echo "   Select: Local development only (no account)"
 ```
 
-**Phase 3 complete. Log to SETUP_LOG_V2.md.**
+**Phase 3 complete. Log to SETUP_LOG.md.**
 
 ---
 
@@ -601,7 +601,7 @@ command -v markitdown &>/dev/null && \
 markitdown --version 2>/dev/null || echo "markitdown installed"
 ```
 
-**Phase 4 complete. Log to SETUP_LOG_V2.md.**
+**Phase 4 complete. Log to SETUP_LOG.md.**
 
 ---
 
@@ -701,7 +701,7 @@ else
 fi
 ```
 
-**Phase 5 complete. Log to SETUP_LOG_V2.md.**
+**Phase 5 complete. Log to SETUP_LOG.md.**
 
 ---
 
@@ -810,7 +810,7 @@ EOF
 echo "✓ ~/.claude/CLAUDE.md written"
 ```
 
-**Phase 6 complete. Log to SETUP_LOG_V2.md.**
+**Phase 6 complete. Log to SETUP_LOG.md.**
 
 ---
 
