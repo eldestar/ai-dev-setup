@@ -4,7 +4,7 @@ Personal AI dev environment setup — deployable on any Mac or Windows device.
 
 ## What This Is
 
-A single executable spec (`SETUP_V2.md`) that Claude Code reads and runs to configure a full AI-assisted development environment from scratch. Designed to be re-runnable: checks before installing, skips what's already present, fixes what's wrong.
+A single executable spec (`SETUP.md`) that Claude Code reads and runs to configure a full AI-assisted development environment from scratch. Designed to be re-runnable: checks before installing, skips what's already present, fixes what's wrong.
 
 ## What Gets Installed
 
@@ -37,18 +37,18 @@ claude login
 ```bash
 git clone https://github.com/eldestar/ai-dev-setup.git
 cd ai-dev-setup
-claude "Read SETUP_V2.md, run system detection first and report findings,
+claude "Read SETUP.md, run system detection first and report findings,
 then execute all phases in order. Ask me before each phase starts.
 Collect all manual steps and present them together at the end.
-Log everything to SETUP_LOG_V2.md."
+Log everything to SETUP_LOG.md."
 ```
 
 ### Re-run on Existing Device (fix / update)
 ```bash
 git pull
-claude "Read SETUP_V2.md, run system detection, check each phase and fix
+claude "Read SETUP.md, run system detection, check each phase and fix
 only what's missing or wrong. Skip anything correctly installed.
-Log changes to SETUP_LOG_V2.md."
+Log changes to SETUP_LOG.md."
 ```
 
 ## Platform Support
@@ -140,7 +140,7 @@ duckdb -c "SELECT * FROM 'file.csv' LIMIT 10"
 
 | File | Purpose |
 |------|---------|
-| `SETUP_V2.md` | Executable setup spec — feed to Claude Code |
+| `SETUP.md` | Executable setup spec — feed to Claude Code |
 | `DEV_ENVIRONMENT_GUIDE.md` | Complete reference: every tool, every workflow |
 | `CHANGELOG.md` | What changed between versions |
 
@@ -154,4 +154,4 @@ duckdb -c "SELECT * FROM 'file.csv' LIMIT 10"
 
 ---
 
-*Feed `SETUP_V2.md` to Claude Code. It does the rest.*
+*Feed `SETUP.md` to Claude Code. It does the rest.*
