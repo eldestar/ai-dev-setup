@@ -1,0 +1,28 @@
+# Logs generated during setup runs
+SETUP_LOG_V2.md
+SETUP_LOG.md
+CLEANUP_LOG.md
+
+# Environment files — never commit
+.env
+.env.*
+*.env
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
