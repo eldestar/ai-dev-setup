@@ -366,27 +366,6 @@ EOF
 echo "✓ Aider configured with ollama/$PRIMARY"
 ```
 
-### 2.5 API Keys (placeholders — subscription auth preferred)
-
-```bash
-# Detect shell config file
-SHELL_RC="${HOME}/.zshrc"
-[[ "$OS" == "Linux" ]] && SHELL_RC="${HOME}/.bashrc"
-
-add_if_missing() {
-  grep -qF "$1" "$SHELL_RC" 2>/dev/null || echo "$1" >> "$SHELL_RC"
-}
-
-# Only add if not already present
-if ! grep -q "ANTHROPIC_API_KEY" "$SHELL_RC" 2>/dev/null; then
-  add_if_missing '# AI API Keys (only needed for aider API mode — Claude Code uses OAuth)'
-  add_if_missing 'export ANTHROPIC_API_KEY="your_anthropic_key_here"'
-  add_if_missing 'export OPENAI_API_KEY="your_openai_key_here"'
-  echo "⚠️  Placeholder API key lines added to $SHELL_RC"
-  echo "    Claude Code and Codex use subscription OAuth — keys only needed for aider API mode"
-fi
-```
-
 **Phase 2 complete. Log to SETUP_LOG.md.**
 
 ---
@@ -864,10 +843,7 @@ echo "║  8. Obsidian: download from obsidian.md                      ║"
 echo "║     → Open ~/vault/ as vault                                 ║"
 echo "║     → Install plugins: Dataview, Templater, Git, QuickAdd    ║"
 echo "║                                                              ║"
-echo "║  9. ~/.zshrc: replace API key placeholders with real values  ║"
-echo "║     (only needed for aider API mode — not for Claude/Codex)  ║"
-echo "║                                                              ║"
-echo "║  10. /teach-impeccable (once per new project, in claude)     ║"
+echo "║  9. /teach-impeccable (once per new project, in claude)      ║"
 echo "║                                                              ║"
 echo "╚══════════════════════════════════════════════════════════════╝"
 ```
@@ -973,7 +949,7 @@ duckdb -c "SELECT * FROM 'file.csv' LIMIT 10"
 | **Total** | | **$40** | |
 
 Codex is used primarily for auditing — the $20 plan is sufficient.
-API keys in `~/.zshrc` are for aider API mode only — Claude Code and Codex use OAuth.
+No API keys required — Claude Code and Codex both authenticate via OAuth.
 
 ---
 
