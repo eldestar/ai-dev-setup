@@ -82,11 +82,66 @@ Automatically detected from RAM + GPU at setup time:
 
 **Full planning loop:** Claude plans → `/codex:adversarial-review` → Claude refines → repeat until Codex has no issues → implement.
 
+## Daily Usage
+
+```bash
+# Start a new project (full scaffold)
+newproject my-app-name && cd my-app-name && claude
+
+# Start coding in an existing project
+cd my-project && claude
+
+# Search your knowledge vault
+rg "search term" ~/vault/
+
+# Convert a PDF/doc to markdown for Claude
+markitdown document.pdf > ~/vault/raw/document.md
+
+# Claude + Codex planning loop (before writing any code)
+# 1. Ask Claude to output a numbered plan
+# 2. /codex:adversarial-review — stress-test it
+# 3. Claude refines → repeat until Codex has no issues
+# 4. Implement
+
+# Background audit while you keep building
+/codex:rescue --background
+/codex:status
+/codex:result
+
+# Free local AI (no quota, no cost)
+aider                        # uses auto-selected Ollama model
+ollama run qwen3:8b          # direct REPL
+
+# Security before every commit (also runs automatically via hook)
+gitleaks protect --staged
+trivy fs .
+
+# Runtime switching
+mise use node@22             # per-project version pin
+mise list                    # see what's installed
+
+# Data exploration
+duckdb -c "SELECT * FROM 'file.csv' LIMIT 10"
+```
+
+**When to use which AI tool:**
+
+| Situation | Tool |
+|-----------|------|
+| Coding, design, architecture, writing | Claude Code |
+| Auditing a plan before building | `/codex:adversarial-review` |
+| Full codebase audit or pre-ship review | `/codex:rescue` |
+| Quota is low / working offline | `aider` (local Ollama) |
+| Quick one-off question | `ollama run qwen3:8b` |
+
+→ Full tool-by-tool reference and workflow examples: **[DEV_ENVIRONMENT_GUIDE.md](DEV_ENVIRONMENT_GUIDE.md)**
+
 ## Files
 
 | File | Purpose |
 |------|---------|
 | `SETUP_V2.md` | Executable setup spec — feed to Claude Code |
+| `DEV_ENVIRONMENT_GUIDE.md` | Complete reference: every tool, every workflow |
 | `CHANGELOG.md` | What changed between versions |
 
 ## Economics
