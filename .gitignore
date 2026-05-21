@@ -26,3 +26,13 @@ node_modules/
 __pycache__/
 *.pyc
 .venv/
+
+# Ruflo / Claude Code runtime state
+ruvector.db
+agentdb.rvf
+agentdb.rvf.lock
+.claude-flow/
+.agents/
+.claude/memory/
+.claude/state/
+.claude/sessions/
