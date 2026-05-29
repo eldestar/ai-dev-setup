@@ -1,5 +1,22 @@
 # Changelog
 
+## v2.1.0 — 2026-05-29
+### Added
+- `setup-windows.ps1` — standalone Windows bootstrap script (no prerequisites needed)
+  - System detection: RAM, CPU, GPU/VRAM → auto-selects Ollama primary + fast model
+  - WSL2 path: clones repo + installs Node/Claude Code inside WSL2, then hands off to SETUP.md
+  - Native PowerShell path: full end-to-end install via Scoop (all phases, no partial coverage)
+  - Native installs: Scoop, mise, Node LTS, Python 3.12, Bun, uv, pipx, Claude Code, Codex CLI,
+    Ollama (with model pulls), Aider, gitleaks, trivy, semgrep, infisical, markitdown
+  - PowerShell profile: starship, mise, bat/rg aliases, PATH setup
+  - Global git hooks: gitleaks pre-commit (Git for Windows sh.exe compatible)
+  - MCP registration: vault + ruflo after `claude login`
+  - Skills + agents install (antigravity-awesome-skills, agency-agents)
+  - CLAUDE.md generated with device-specific hardware specs (CPU, RAM, GPU, VRAM)
+  - Validation sweep at end; manual-steps checklist printed with all browser-auth steps
+- README: Windows quick-start section with one-liner PowerShell install command
+- Platform Support table updated: Windows native promoted from ⚠ Partial to ✓ Supported
+
 ## v2.0.0 — 2026-05-17
 ### Added
 - Cross-platform support: macOS (Apple Silicon + Intel) and Windows (WSL2 + native PowerShell)
