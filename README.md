@@ -24,17 +24,16 @@ A single executable spec (`SETUP.md`) that Claude Code reads and runs to configu
 
 ## Quick Start (New Device)
 
-### Prerequisites
+### Mac
+
 ```bash
-# Mac — install Claude Code first
+# Install Claude Code first
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install node
 npm install -g @anthropic-ai/claude-code
 claude login
-```
 
-### Run Setup
-```bash
+# Then run setup
 git clone https://github.com/eldestar/ai-dev-setup.git
 cd ai-dev-setup
 claude "Read SETUP.md, run system detection first and report findings,
@@ -42,6 +41,20 @@ then execute all phases in order. Ask me before each phase starts.
 Collect all manual steps and present them together at the end.
 Log everything to SETUP_LOG.md."
 ```
+
+### Windows
+
+```powershell
+# Run in PowerShell (no admin required)
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm https://raw.githubusercontent.com/eldestar/ai-dev-setup/main/setup-windows.ps1 | iex
+```
+
+The script detects your hardware (RAM + GPU), recommends the right local LLM, then asks:
+- **WSL2** (recommended) — full Linux environment, all tools work identically to Mac
+- **Native PowerShell** — installs everything via Scoop, works with reduced functionality on some tools
+
+Both paths print a manual-steps checklist at the end for the things that require browser auth (Claude login, Codex login, plugin installs).
 
 ### Re-run on Existing Device (fix / update)
 ```bash
@@ -57,8 +70,8 @@ Log changes to SETUP_LOG.md."
 |----------|--------|------|
 | macOS Apple Silicon | ✓ Primary | Homebrew + zsh |
 | macOS Intel | ✓ Supported | Homebrew + zsh |
-| Windows (WSL2) | ✓ Supported | Linuxbrew + bash |
-| Windows (Native) | ⚠ Partial | Scoop + PowerShell |
+| Windows (WSL2) | ✓ Supported | `setup-windows.ps1` → WSL2 → SETUP.md |
+| Windows (Native) | ✓ Supported | `setup-windows.ps1` → Scoop + PowerShell |
 
 ## Local LLM Selection
 
