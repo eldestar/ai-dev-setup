@@ -1,0 +1,9 @@
+# Recommended Codex project defaults for this installer repo.
+# Copy or merge manually into your Codex config if desired.
+
+[project]
+instructions_file = "AGENTS.md"
+
+[workflow]
+prefer_dry_run_validation = true
+review_platform_scripts = true

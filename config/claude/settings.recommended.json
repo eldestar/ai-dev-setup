@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "defaultMode": "ask"
+  },
+  "env": {
+    "AI_DEV_SETUP_ASSETS": "~/.ai-dev-setup"
+  }
+}
