@@ -1,0 +1,8 @@
+{
+  "name": "ai-dev-setup",
+  "version": "0.1.0",
+  "description": "Installer maintenance skill and setup workflow helpers.",
+  "author": {
+    "name": "eldestar"
+  }
+}

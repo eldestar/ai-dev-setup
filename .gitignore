@@ -34,7 +34,10 @@ ruvector.db
 agentdb.rvf
 agentdb.rvf.lock
 .claude-flow/
-.agents/
+.agents/*
+!.agents/plugins/
+.agents/plugins/*
+!.agents/plugins/marketplace.json
 .claude/memory/
 .claude/state/
 .claude/sessions/

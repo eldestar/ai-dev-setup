@@ -34,9 +34,10 @@ function Install-ClaudeAssetsAndCli {
 
     $claudeHome = Join-Path $Context.Home ".claude"
     $projectRoot = if ($TargetRoot) { $TargetRoot } else { $script:RepoRoot }
-    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "agents/claude") -Destination (Join-Path $claudeHome "agents/ai-dev-setup") -Recurse) -or $assetsInstalled
-    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "skills/claude") -Destination (Join-Path $claudeHome "skills/ai-dev-setup") -Recurse) -or $assetsInstalled
-    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "config/claude") -Destination (Join-Path $claudeHome "ai-dev-setup") -Recurse) -or $assetsInstalled
+    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "agents/claude/setup-orchestrator.md") -Destination (Join-Path $claudeHome "agents/setup-orchestrator.md")) -or $assetsInstalled
+    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "skills/shared/installer-maintenance") -Destination (Join-Path $claudeHome "skills/installer-maintenance") -Recurse) -or $assetsInstalled
+    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "config/claude/commands/adversarial-codex-review.md") -Destination (Join-Path $claudeHome "commands/adversarial-codex-review.md")) -or $assetsInstalled
+    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "config/claude/settings.recommended.json") -Destination (Join-Path $Context.Home ".ai-dev-setup/reference/claude/settings.recommended.json")) -or $assetsInstalled
     $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "config/claude/CLAUDE.md") -Destination (Join-Path $projectRoot "CLAUDE.md")) -or $assetsInstalled
 
     [pscustomobject]@{

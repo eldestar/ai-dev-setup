@@ -29,11 +29,11 @@ function Install-CodexAssetsAndCli {
         }
     }
 
-    $codexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $Context.Home ".codex" }
-    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "agents/codex") -Destination (Join-Path $codexHome "agents/ai-dev-setup") -Recurse) -or $assetsInstalled
-    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "agents/shared") -Destination (Join-Path $codexHome "agents/shared") -Recurse) -or $assetsInstalled
-    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "config/codex") -Destination (Join-Path $codexHome "ai-dev-setup") -Recurse) -or $assetsInstalled
-    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "templates/goals") -Destination (Join-Path $codexHome "goals/ai-dev-setup") -Recurse) -or $assetsInstalled
+    $codexHome = if ($Context.HomeOverridden) { Join-Path $Context.Home ".codex" } elseif ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $Context.Home ".codex" }
+    $agentsHome = Join-Path $Context.Home ".agents"
+    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "agents/codex/installer-reviewer.toml") -Destination (Join-Path $codexHome "agents/installer-reviewer.toml")) -or $assetsInstalled
+    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "skills/shared/installer-maintenance") -Destination (Join-Path $agentsHome "skills/installer-maintenance") -Recurse) -or $assetsInstalled
+    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "config/codex") -Destination (Join-Path $Context.Home ".ai-dev-setup/reference/codex") -Recurse) -or $assetsInstalled
 
     [pscustomobject]@{
         Installed = $(if ($installed) { "yes" } else { "no" })

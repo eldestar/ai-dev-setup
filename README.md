@@ -109,6 +109,9 @@ ai-dev-setup/
     codex/
     shared/
   skills/
+    shared/
+  plugins/
+    ai-dev-setup/
     claude/
   templates/
     handoffs/
@@ -116,6 +119,7 @@ ai-dev-setup/
     prompts/
   docs/
     architecture.md
+    extensions.md
     manual-install.md
     troubleshooting.md
     supported-platforms.md
@@ -147,8 +151,8 @@ Existing destination files are backed up before replacement. Use dry-run first w
 - Shared coding standards and instructions: add files under `config/shared/`.
 - Claude commands/settings/project instructions: add files under `config/claude/`.
 - Claude agents: add files under `agents/claude/`.
-- Claude skills: add skill folders under `skills/claude/`.
-- Codex instructions/config/templates: add files under `config/codex/`, `agents/codex/`, and `templates/goals/`.
+- Shared Claude/Codex skills: add skill folders under `skills/shared/`.
+- Codex instructions and agents: add files under `config/codex/` and native TOML files under `agents/codex/`.
 - Handoff templates and prompts: add files under `templates/handoffs/` and `templates/prompts/`.
 
 Then rerun the installer to copy the new assets into the standard user-level locations.
@@ -160,3 +164,5 @@ If automation cannot complete a step, the installer records an explicit manual a
 ## Troubleshooting
 
 See [docs/troubleshooting.md](docs/troubleshooting.md). Most setup failures are caused by missing Node/npm, shell `PATH` refresh issues after a package install, or authentication still needing a browser login.
+
+Extension discovery paths and optional plugin bundles are documented in [docs/extensions.md](docs/extensions.md).

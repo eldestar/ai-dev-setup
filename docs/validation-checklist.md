@@ -20,9 +20,9 @@ claude login
 Confirm assets exist:
 
 ```bash
-ls ~/.claude/ai-dev-setup
-ls ~/.claude/agents/ai-dev-setup
-ls ~/.claude/skills/ai-dev-setup
+ls ~/.claude/agents/setup-orchestrator.md
+ls ~/.claude/skills/installer-maintenance
+ls ~/.claude/commands/adversarial-codex-review.md
 ```
 
 ## Codex CLI
@@ -35,9 +35,8 @@ codex login
 Confirm assets exist:
 
 ```bash
-ls "${CODEX_HOME:-$HOME/.codex}/ai-dev-setup"
-ls "${CODEX_HOME:-$HOME/.codex}/agents/ai-dev-setup"
-ls "${CODEX_HOME:-$HOME/.codex}/goals/ai-dev-setup"
+ls "${CODEX_HOME:-$HOME/.codex}/agents/installer-reviewer.toml"
+ls "$HOME/.agents/skills/installer-maintenance"
 ```
 
 ## Shared Assets
@@ -69,9 +68,10 @@ Automated Windows sandbox scenarios:
 
 ```powershell
 .\scripts\tests\test-install.ps1
+.\scripts\tests\test-extensions.ps1
 ```
 
-This test uses mocked commands and isolated temporary home/project paths to exercise neither-installed, Claude-only, Codex-only, and both-installed states without touching real user configuration.
+The first test uses mocked commands and isolated temporary home/project paths to exercise neither-installed, Claude-only, Codex-only, and both-installed states without touching real user configuration. The second runs native Claude/Codex extension validators and exercises Codex marketplace installation in an isolated temporary `CODEX_HOME`.
 
 ## Isolated Sandbox Install
 

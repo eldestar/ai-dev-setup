@@ -55,6 +55,7 @@ function Invoke-InstallerScenario {
     $bin = Join-Path $root "bin"
     $sandboxHome = Join-Path $root "home"
     $project = Join-Path $root "project"
+    $externalCodexHome = Join-Path $root "must-not-use-codex-home"
     $npmLog = Join-Path $root "npm.log"
     Initialize-MockBin $bin $InitialTools
 
@@ -66,6 +67,7 @@ function Invoke-InstallerScenario {
     $start.RedirectStandardError = $true
     $start.EnvironmentVariables["PATH"] = $bin
     $start.EnvironmentVariables["MOCK_NPM_LOG"] = $npmLog
+    $start.EnvironmentVariables["CODEX_HOME"] = $externalCodexHome
 
     $process = [System.Diagnostics.Process]::Start($start)
     $stdout = $process.StandardOutput.ReadToEnd()
@@ -77,8 +79,13 @@ function Invoke-InstallerScenario {
     Assert-True ($stdout -match "Codex installed/configured: yes/yes") "$Name did not configure Codex"
     Assert-True (Test-Path (Join-Path $project "AGENTS.md")) "$Name missing project AGENTS.md"
     Assert-True (Test-Path (Join-Path $project "CLAUDE.md")) "$Name missing project CLAUDE.md"
-    Assert-True (Test-Path (Join-Path $sandboxHome ".claude/skills/ai-dev-setup/installer-maintenance/SKILL.md")) "$Name missing Claude skill"
-    Assert-True (Test-Path (Join-Path $sandboxHome ".codex/goals/ai-dev-setup/setup-validation.goal.md")) "$Name missing Codex goal"
+    Assert-True (Test-Path (Join-Path $sandboxHome ".claude/agents/setup-orchestrator.md")) "$Name missing Claude subagent"
+    Assert-True (Test-Path (Join-Path $sandboxHome ".claude/skills/installer-maintenance/SKILL.md")) "$Name missing Claude skill"
+    Assert-True (Test-Path (Join-Path $sandboxHome ".claude/commands/adversarial-codex-review.md")) "$Name missing Claude command"
+    Assert-True (Test-Path (Join-Path $sandboxHome ".agents/skills/installer-maintenance/SKILL.md")) "$Name missing Codex skill"
+    Assert-True (Test-Path (Join-Path $sandboxHome ".codex/agents/installer-reviewer.toml")) "$Name missing Codex subagent"
+    Assert-True (Test-Path (Join-Path $sandboxHome ".ai-dev-setup/reference/codex/README.md")) "$Name missing Codex reference docs"
+    Assert-True (-not (Test-Path $externalCodexHome)) "$Name wrote to external CODEX_HOME during sandbox install"
 
     $npmCalls = if (Test-Path $npmLog) { Get-Content $npmLog -Raw } else { "" }
     foreach ($package in $ExpectedPackages) {

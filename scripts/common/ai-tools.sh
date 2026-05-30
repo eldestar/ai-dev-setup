@@ -35,9 +35,10 @@ install_claude_cli_and_assets() {
   fi
 
   claude_home="$HOME/.claude"
-  copy_setup_item "$REPO_ROOT/agents/claude" "$claude_home/agents/ai-dev-setup" && CLAUDE_ASSETS_INSTALLED="yes"
-  copy_setup_item "$REPO_ROOT/skills/claude" "$claude_home/skills/ai-dev-setup" && CLAUDE_ASSETS_INSTALLED="yes"
-  copy_setup_item "$REPO_ROOT/config/claude" "$claude_home/ai-dev-setup" && CLAUDE_ASSETS_INSTALLED="yes"
+  copy_setup_item "$REPO_ROOT/agents/claude/setup-orchestrator.md" "$claude_home/agents/setup-orchestrator.md" && CLAUDE_ASSETS_INSTALLED="yes"
+  copy_setup_item "$REPO_ROOT/skills/shared/installer-maintenance" "$claude_home/skills/installer-maintenance" && CLAUDE_ASSETS_INSTALLED="yes"
+  copy_setup_item "$REPO_ROOT/config/claude/commands/adversarial-codex-review.md" "$claude_home/commands/adversarial-codex-review.md" && CLAUDE_ASSETS_INSTALLED="yes"
+  copy_setup_item "$REPO_ROOT/config/claude/settings.recommended.json" "$HOME/.ai-dev-setup/reference/claude/settings.recommended.json" && CLAUDE_ASSETS_INSTALLED="yes"
   project_root="${TARGET_ROOT:-$REPO_ROOT}"
   copy_setup_item "$REPO_ROOT/config/claude/CLAUDE.md" "$project_root/CLAUDE.md" && CLAUDE_ASSETS_INSTALLED="yes"
 }
@@ -70,9 +71,13 @@ install_codex_cli_and_assets() {
     fi
   fi
 
-  codex_home="${CODEX_HOME:-$HOME/.codex}"
-  copy_setup_item "$REPO_ROOT/agents/codex" "$codex_home/agents/ai-dev-setup" && CODEX_ASSETS_INSTALLED="yes"
-  copy_setup_item "$REPO_ROOT/agents/shared" "$codex_home/agents/shared" && CODEX_ASSETS_INSTALLED="yes"
-  copy_setup_item "$REPO_ROOT/config/codex" "$codex_home/ai-dev-setup" && CODEX_ASSETS_INSTALLED="yes"
-  copy_setup_item "$REPO_ROOT/templates/goals" "$codex_home/goals/ai-dev-setup" && CODEX_ASSETS_INSTALLED="yes"
+  if [ -n "${USER_HOME:-}" ]; then
+    codex_home="$HOME/.codex"
+  else
+    codex_home="${CODEX_HOME:-$HOME/.codex}"
+  fi
+  agents_home="$HOME/.agents"
+  copy_setup_item "$REPO_ROOT/agents/codex/installer-reviewer.toml" "$codex_home/agents/installer-reviewer.toml" && CODEX_ASSETS_INSTALLED="yes"
+  copy_setup_item "$REPO_ROOT/skills/shared/installer-maintenance" "$agents_home/skills/installer-maintenance" && CODEX_ASSETS_INSTALLED="yes"
+  copy_setup_item "$REPO_ROOT/config/codex" "$HOME/.ai-dev-setup/reference/codex" && CODEX_ASSETS_INSTALLED="yes"
 }

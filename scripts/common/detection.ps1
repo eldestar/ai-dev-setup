@@ -29,6 +29,7 @@ function Get-SetupContext {
         PowerShellEdition = $PSVersionTable.PSEdition
         PowerShellVersion = $PSVersionTable.PSVersion.ToString()
         Home = if ($UserHome) { $UserHome } else { [Environment]::GetFolderPath("UserProfile") }
+        HomeOverridden = [bool]$UserHome
         HasNode = (Test-SetupCommand "node")
         HasNpm = (Test-SetupCommand "npm")
         HasClaude = (Test-SetupCommand "claude")

@@ -35,7 +35,11 @@ Both entry points support dry-run mode, verbose logging, confirmation prompts, n
 | --- | --- |
 | Shared config/templates | `~/.ai-dev-setup/` |
 | Project instructions | `AGENTS.md` in target root or installer root |
-| Claude assets | `~/.claude/ai-dev-setup/`, `~/.claude/agents/ai-dev-setup/`, `~/.claude/skills/ai-dev-setup/` |
-| Codex assets | `${CODEX_HOME:-~/.codex}/ai-dev-setup/`, `${CODEX_HOME:-~/.codex}/agents/`, `${CODEX_HOME:-~/.codex}/goals/` |
+| Claude subagent | `~/.claude/agents/setup-orchestrator.md` |
+| Claude skill | `~/.claude/skills/installer-maintenance/SKILL.md` |
+| Claude command | `~/.claude/commands/adversarial-codex-review.md` |
+| Codex subagent | `${CODEX_HOME:-~/.codex}/agents/installer-reviewer.toml` |
+| Codex skill | `~/.agents/skills/installer-maintenance/SKILL.md` |
+| Reference-only configuration notes | `~/.ai-dev-setup/reference/` |
 
 Existing destinations are backed up before replacement unless the user skips the action.

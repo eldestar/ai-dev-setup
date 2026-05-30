@@ -1,0 +1,20 @@
+{
+  "name": "ai-dev-setup",
+  "interface": {
+    "displayName": "AI Dev Setup"
+  },
+  "plugins": [
+    {
+      "name": "ai-dev-setup",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ai-dev-setup"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
