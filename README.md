@@ -1,170 +1,150 @@
-# ai-dev-setup
+# Claude + Codex Installer
 
-Personal AI dev environment setup — deployable on any Mac or Windows device.
+Repo-based installer and setup system for a combined Claude Code + Codex development environment. The installer handles repeatable setup work from PowerShell or a POSIX shell so Claude/Codex credits are reserved for planning, implementation, code review, and validation.
 
-## What This Is
+This branch evolves the existing `eldestar/ai-dev-setup` repo instead of creating a standalone repo because this repository already owns the broader AI development environment setup story. The new installer structure keeps the changes isolated and makes the project usable without first asking an AI tool to execute `SETUP.md`.
 
-A single executable spec (`SETUP.md`) that Claude Code reads and runs to configure a full AI-assisted development environment from scratch. Designed to be re-runnable: checks before installing, skips what's already present, fixes what's wrong.
+## What This Repo Does
 
-## What Gets Installed
+- Detects Windows, macOS, Linux, WSL2, available shells, package managers, Node/npm, Git, Claude Code, and Codex CLI.
+- Installs or guides installation for Claude Code and Codex CLI.
+- Supports partial installs: Claude-only, Codex-only, both installed, or neither installed.
+- Installs shared instructions, handoff templates, reusable prompts, Claude assets, and Codex assets.
+- Backs up existing destination files/directories before replacing them.
+- Writes setup logs to `logs/`.
+- Produces a final summary with detected OS/shells, tool status, configured assets, manual steps, and errors.
 
-| Category | Tools |
-|----------|-------|
-| Shell | starship, fzf, bat, lazygit, zellij, mise |
-| Runtimes | Node LTS, Python 3.12, Bun (via mise) |
-| Package managers | uv, pipx, bun, npm |
-| AI coding | Claude Code, Codex CLI, Aider, Ollama |
-| Local LLMs | Auto-selected based on device RAM + GPU |
-| Agent orchestration | Ruflo, ruv-swarm, flow-nexus |
-| Skills & agents | 1,400+ skills, 200+ agent personas |
-| Knowledge base | ~/vault/ structure + MCP server + Obsidian templates |
-| Security | gitleaks (pre-commit hook), trivy, semgrep |
-| Secrets | Infisical |
-| App building | PocketBase, Caddy, spec-kit, newproject command |
+## Supported Platforms
 
-## Quick Start (New Device)
+| Platform | Entry point | Notes |
+| --- | --- | --- |
+| Windows 10/11 | `install.ps1` | Native PowerShell supported; WSL2 recommended for best Codex compatibility. |
+| macOS 12+ | `install.sh` | Homebrew is used when available for prerequisites. |
+| Linux | `install.sh` | `apt-get` automation is supported initially; other distros get explicit manual steps. |
+| WSL2 | `install.sh` | Preferred Windows path for parity with Linux/macOS tooling. |
 
-### Mac
+## Prerequisites
 
-```bash
-# Install Claude Code first
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install node
-npm install -g @anthropic-ai/claude-code
-claude login
+- Git, if cloning rather than downloading a zip.
+- PowerShell 5.1+ on Windows.
+- Bash or zsh on macOS/Linux.
+- Node.js LTS and npm are recommended. The installer can attempt to install them on common platforms, or give manual fallback steps.
 
-# Then run setup
-git clone https://github.com/eldestar/ai-dev-setup.git
-cd ai-dev-setup
-claude "Read SETUP.md, run system detection first and report findings,
-then execute all phases in order. Ask me before each phase starts.
-Collect all manual steps and present them together at the end.
-Log everything to SETUP_LOG.md."
-```
+## Quick Start
 
 ### Windows
 
 ```powershell
-# Run in PowerShell (no admin required)
+git clone https://github.com/eldestar/ai-dev-setup.git
+cd ai-dev-setup
+git switch feature/claude-codex-installer
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm https://raw.githubusercontent.com/eldestar/ai-dev-setup/main/setup-windows.ps1 | iex
+.\install.ps1
 ```
 
-The script detects your hardware (RAM + GPU), recommends the right local LLM, then asks:
-- **WSL2** (recommended) — full Linux environment, all tools work identically to Mac
-- **Native PowerShell** — installs everything via Scoop, works with reduced functionality on some tools
+Preview changes without writing:
 
-Both paths print a manual-steps checklist at the end for the things that require browser auth (Claude login, Codex login, plugin installs).
+```powershell
+.\install.ps1 -DryRun -VerboseLogging
+```
 
-### Re-run on Existing Device (fix / update)
+Run without confirmation prompts:
+
+```powershell
+.\install.ps1 -Yes
+```
+
+### macOS / Linux / WSL2
+
+```bash
+git clone https://github.com/eldestar/ai-dev-setup.git
+cd ai-dev-setup
+git switch feature/claude-codex-installer
+chmod +x install.sh
+./install.sh
+```
+
+Preview changes without writing:
+
+```bash
+./install.sh --dry-run --verbose
+```
+
+Run without confirmation prompts:
+
+```bash
+./install.sh --yes
+```
+
+## Repo Structure
+
+```text
+ai-dev-setup/
+  README.md
+  install.ps1
+  install.sh
+  scripts/
+    common/
+    windows/
+    macos/
+    linux/
+  config/
+    shared/
+    claude/
+    codex/
+  agents/
+    claude/
+    codex/
+    shared/
+  skills/
+    claude/
+  templates/
+    handoffs/
+    goals/
+    prompts/
+  docs/
+    architecture.md
+    manual-install.md
+    troubleshooting.md
+    supported-platforms.md
+    validation-checklist.md
+  logs/
+    .gitkeep
+```
+
+## Updating Installed Assets
+
+Pull the latest repo changes and rerun the installer:
+
 ```bash
 git pull
-claude "Read SETUP.md, run system detection, check each phase and fix
-only what's missing or wrong. Skip anything correctly installed.
-Log changes to SETUP_LOG.md."
+./install.sh
 ```
 
-## Platform Support
+On Windows:
 
-| Platform | Status | Path |
-|----------|--------|------|
-| macOS Apple Silicon | ✓ Primary | Homebrew + zsh |
-| macOS Intel | ✓ Supported | Homebrew + zsh |
-| Windows (WSL2) | ✓ Supported | `setup-windows.ps1` → WSL2 → SETUP.md |
-| Windows (Native) | ✓ Supported | `setup-windows.ps1` → Scoop + PowerShell |
-
-## Local LLM Selection
-
-Automatically detected from RAM + GPU at setup time:
-
-| RAM | Apple Silicon | NVIDIA GPU | CPU Only |
-|-----|--------------|------------|----------|
-| 8 GB | llama3.2:3b | phi4-mini | llama3.2:3b |
-| 16 GB | qwen3:8b | qwen3:8b | llama3.2:3b |
-| 32 GB | qwen3:14b | qwen3:14b | qwen3:8b |
-| 64 GB+ | qwen3:32b | qwen3:32b | qwen3:14b |
-
-## Workflow Patterns
-
-**Claude + Codex Dynamic Duo:**
-```
-/codex:adversarial-review [plan]   # stress-test before building
-/codex:rescue --background         # full audit while you keep working
-/codex:result                      # retrieve audit
+```powershell
+git pull
+.\install.ps1
 ```
 
-**Full planning loop:** Claude plans → `/codex:adversarial-review` → Claude refines → repeat until Codex has no issues → implement.
+Existing destination files are backed up before replacement. Use dry-run first when reviewing larger updates.
 
-## Daily Usage
+## Adding Assets Later
 
-```bash
-# Start a new project (full scaffold)
-newproject my-app-name && cd my-app-name && claude
+- Shared coding standards and instructions: add files under `config/shared/`.
+- Claude commands/settings/project instructions: add files under `config/claude/`.
+- Claude agents: add files under `agents/claude/`.
+- Claude skills: add skill folders under `skills/claude/`.
+- Codex instructions/config/templates: add files under `config/codex/`, `agents/codex/`, and `templates/goals/`.
+- Handoff templates and prompts: add files under `templates/handoffs/` and `templates/prompts/`.
 
-# Start coding in an existing project
-cd my-project && claude
+Then rerun the installer to copy the new assets into the standard user-level locations.
 
-# Search your knowledge vault
-rg "search term" ~/vault/
+## Manual Fallback
 
-# Convert a PDF/doc to markdown for Claude
-markitdown document.pdf > ~/vault/raw/document.md
+If automation cannot complete a step, the installer records an explicit manual action in the final summary. The full fallback guide is in [docs/manual-install.md](docs/manual-install.md), with verification commands for each platform.
 
-# Claude + Codex planning loop (before writing any code)
-# 1. Ask Claude to output a numbered plan
-# 2. /codex:adversarial-review — stress-test it
-# 3. Claude refines → repeat until Codex has no issues
-# 4. Implement
+## Troubleshooting
 
-# Background audit while you keep building
-/codex:rescue --background
-/codex:status
-/codex:result
-
-# Free local AI (no quota, no cost)
-aider                        # uses auto-selected Ollama model
-ollama run qwen3:8b          # direct REPL
-
-# Security before every commit (also runs automatically via hook)
-gitleaks protect --staged
-trivy fs .
-
-# Runtime switching
-mise use node@22             # per-project version pin
-mise list                    # see what's installed
-
-# Data exploration
-duckdb -c "SELECT * FROM 'file.csv' LIMIT 10"
-```
-
-**When to use which AI tool:**
-
-| Situation | Tool |
-|-----------|------|
-| Coding, design, architecture, writing | Claude Code |
-| Auditing a plan before building | `/codex:adversarial-review` |
-| Full codebase audit or pre-ship review | `/codex:rescue` |
-| Quota is low / working offline | `aider` (local Ollama) |
-| Quick one-off question | `ollama run qwen3:8b` |
-
-→ Full tool-by-tool reference and workflow examples: **[DEV_ENVIRONMENT_GUIDE.md](DEV_ENVIRONMENT_GUIDE.md)**
-
-## Files
-
-| File | Purpose |
-|------|---------|
-| `SETUP.md` | Executable setup spec — feed to Claude Code |
-| `DEV_ENVIRONMENT_GUIDE.md` | Complete reference: every tool, every workflow |
-| `CHANGELOG.md` | What changed between versions |
-
-## Economics
-
-| Tool | Auth | Cost |
-|------|------|------|
-| Claude Code | Claude Pro OAuth | $20/mo |
-| Codex CLI | ChatGPT Plus OAuth | $20/mo |
-| Aider + Ollama | None | Free |
-
----
-
-*Feed `SETUP.md` to Claude Code. It does the rest.*
+See [docs/troubleshooting.md](docs/troubleshooting.md). Most setup failures are caused by missing Node/npm, shell `PATH` refresh issues after a package install, or authentication still needing a browser login.

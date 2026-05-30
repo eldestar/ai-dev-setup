@@ -2,6 +2,8 @@
 SETUP_LOG_V2.md
 SETUP_LOG.md
 CLEANUP_LOG.md
+logs/*
+!logs/.gitkeep
 
 # Environment files — never commit
 .env
