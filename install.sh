@@ -6,6 +6,7 @@ DRY_RUN=0
 ASSUME_YES=0
 VERBOSE_LOGGING=0
 TARGET_ROOT=""
+USER_HOME=""
 MANUAL_STEPS=()
 ERRORS=()
 
@@ -15,9 +16,10 @@ for arg in "$@"; do
     --yes|-y) ASSUME_YES=1 ;;
     --verbose|-v) VERBOSE_LOGGING=1 ;;
     --target-root=*) TARGET_ROOT="${arg#*=}" ;;
+    --user-home=*) USER_HOME="${arg#*=}" ;;
     --help|-h)
       cat <<'HELP'
-Usage: ./install.sh [--dry-run] [--yes] [--verbose] [--target-root=/path/to/project]
+Usage: ./install.sh [--dry-run] [--yes] [--verbose] [--target-root=/path/to/project] [--user-home=/tmp/sandbox-home]
 
 Installs and validates shared Claude Code + Codex CLI assets on macOS/Linux.
 HELP
@@ -26,6 +28,11 @@ HELP
     *) echo "Unknown argument: $arg" >&2; exit 2 ;;
   esac
 done
+
+if [ -n "$USER_HOME" ]; then
+  HOME="$USER_HOME"
+  export HOME
+fi
 
 # shellcheck source=/dev/null
 . "$REPO_ROOT/scripts/common/logging.sh"

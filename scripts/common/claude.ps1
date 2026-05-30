@@ -1,5 +1,8 @@
 function Install-ClaudeAssetsAndCli {
-    param([Parameter(Mandatory)]$Context)
+    param(
+        [Parameter(Mandatory)]$Context,
+        [string]$TargetRoot
+    )
 
     Write-SetupHeader "Claude Code"
     $installed = $Context.HasClaude
@@ -30,10 +33,11 @@ function Install-ClaudeAssetsAndCli {
     }
 
     $claudeHome = Join-Path $Context.Home ".claude"
+    $projectRoot = if ($TargetRoot) { $TargetRoot } else { $script:RepoRoot }
     $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "agents/claude") -Destination (Join-Path $claudeHome "agents/ai-dev-setup") -Recurse) -or $assetsInstalled
     $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "skills/claude") -Destination (Join-Path $claudeHome "skills/ai-dev-setup") -Recurse) -or $assetsInstalled
     $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "config/claude") -Destination (Join-Path $claudeHome "ai-dev-setup") -Recurse) -or $assetsInstalled
-    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "config/claude/CLAUDE.md") -Destination (Join-Path $script:RepoRoot "CLAUDE.md")) -or $assetsInstalled
+    $assetsInstalled = (Copy-SetupItem -Source (Join-Path $script:RepoRoot "config/claude/CLAUDE.md") -Destination (Join-Path $projectRoot "CLAUDE.md")) -or $assetsInstalled
 
     [pscustomobject]@{
         Installed = $(if ($installed) { "yes" } else { "no" })

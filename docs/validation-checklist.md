@@ -64,3 +64,25 @@ On Windows:
 ```
 
 Confirm the second run skips or backs up existing destinations instead of silently overwriting them.
+
+Automated Windows sandbox scenarios:
+
+```powershell
+.\scripts\tests\test-install.ps1
+```
+
+This test uses mocked commands and isolated temporary home/project paths to exercise neither-installed, Claude-only, Codex-only, and both-installed states without touching real user configuration.
+
+## Isolated Sandbox Install
+
+Use a temporary home and project directory to exercise real asset copying without touching existing user configuration.
+
+```bash
+./install.sh --yes --user-home="$PWD/work/test-home" --target-root="$PWD/work/test-project"
+```
+
+On Windows:
+
+```powershell
+.\install.ps1 -Yes -UserHome .\work\test-home -TargetRoot .\work\test-project
+```

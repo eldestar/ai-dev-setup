@@ -3,6 +3,7 @@ function Test-SetupCommand([string]$Name) {
 }
 
 function Get-SetupContext {
+    param([string]$UserHome)
     $shells = New-Object System.Collections.Generic.List[string]
     foreach ($candidate in @("pwsh", "powershell", "bash", "zsh", "wsl")) {
         if (Test-SetupCommand $candidate) { $shells.Add($candidate) | Out-Null }
@@ -27,7 +28,7 @@ function Get-SetupContext {
         Shells = @($shells)
         PowerShellEdition = $PSVersionTable.PSEdition
         PowerShellVersion = $PSVersionTable.PSVersion.ToString()
-        Home = [Environment]::GetFolderPath("UserProfile")
+        Home = if ($UserHome) { $UserHome } else { [Environment]::GetFolderPath("UserProfile") }
         HasNode = (Test-SetupCommand "node")
         HasNpm = (Test-SetupCommand "npm")
         HasClaude = (Test-SetupCommand "claude")

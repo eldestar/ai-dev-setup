@@ -48,6 +48,12 @@ Preview changes without writing:
 .\install.ps1 -DryRun -VerboseLogging
 ```
 
+Run an isolated asset-copy test without writing to your real config folders:
+
+```powershell
+.\install.ps1 -Yes -UserHome .\work\test-home -TargetRoot .\work\test-project
+```
+
 Run without confirmation prompts:
 
 ```powershell
@@ -68,6 +74,12 @@ Preview changes without writing:
 
 ```bash
 ./install.sh --dry-run --verbose
+```
+
+Run an isolated asset-copy test without writing to your real config folders:
+
+```bash
+./install.sh --yes --user-home="$PWD/work/test-home" --target-root="$PWD/work/test-project"
 ```
 
 Run without confirmation prompts:

@@ -14,7 +14,8 @@ param(
     [switch]$DryRun,
     [switch]$Yes,
     [switch]$VerboseLogging,
-    [string]$TargetRoot
+    [string]$TargetRoot,
+    [string]$UserHome
 )
 
 Set-StrictMode -Version Latest
@@ -39,7 +40,7 @@ Write-SetupHeader "Claude + Codex Installer"
 Write-SetupInfo "Repo root: $script:RepoRoot"
 if ($script:DryRun) { Write-SetupWarn "Dry run enabled. No changes will be written." }
 
-$context = Get-SetupContext
+$context = Get-SetupContext -UserHome $UserHome
 Write-SetupHeader "Detected Environment"
 Write-SetupInfo "OS: $($context.OSName)"
 Write-SetupInfo "Architecture: $($context.Architecture)"
@@ -51,7 +52,7 @@ if ($context.Platform -eq "Windows") {
 }
 
 $assets = Install-RepoAssets -Context $context -TargetRoot $TargetRoot
-$claude = Install-ClaudeAssetsAndCli -Context $context
+$claude = Install-ClaudeAssetsAndCli -Context $context -TargetRoot $TargetRoot
 $codex = Install-CodexAssetsAndCli -Context $context
 
 Write-SetupHeader "Final Summary"

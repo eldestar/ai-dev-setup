@@ -38,7 +38,8 @@ install_claude_cli_and_assets() {
   copy_setup_item "$REPO_ROOT/agents/claude" "$claude_home/agents/ai-dev-setup" && CLAUDE_ASSETS_INSTALLED="yes"
   copy_setup_item "$REPO_ROOT/skills/claude" "$claude_home/skills/ai-dev-setup" && CLAUDE_ASSETS_INSTALLED="yes"
   copy_setup_item "$REPO_ROOT/config/claude" "$claude_home/ai-dev-setup" && CLAUDE_ASSETS_INSTALLED="yes"
-  copy_setup_item "$REPO_ROOT/config/claude/CLAUDE.md" "$REPO_ROOT/CLAUDE.md" && CLAUDE_ASSETS_INSTALLED="yes"
+  project_root="${TARGET_ROOT:-$REPO_ROOT}"
+  copy_setup_item "$REPO_ROOT/config/claude/CLAUDE.md" "$project_root/CLAUDE.md" && CLAUDE_ASSETS_INSTALLED="yes"
 }
 
 install_codex_cli_and_assets() {
