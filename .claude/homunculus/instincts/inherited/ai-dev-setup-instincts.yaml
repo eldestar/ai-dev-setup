@@ -1,0 +1,485 @@
+# Instincts generated from https://github.com/eldestar/ai-dev-setup
+# Generated: 2026-06-02T05:44:24.319Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: ai-dev-setup-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Commit Length
+
+## Action
+
+Write moderate-length commit messages (~67 characters)
+
+## Evidence
+
+- Average commit message length: 67 chars
+- Based on 6 commits
+
+---
+id: ai-dev-setup-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: ai-dev-setup-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: ai-dev-setup-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: ai-dev-setup-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: ai-dev-setup-workflow-single-source-of-truth-config-integration
+trigger: "when doing single source of truth config integration"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Workflow Single Source Of Truth Config Integration
+
+## Action
+
+Follow the single-source-of-truth-config-integration workflow:
+1. Add or update config file(s) (e.g., config/models.csv, config/tools.csv, templates/CLAUDE.md.tmpl).
+2. Update or refactor installer scripts (e.g., runners/install.ps1, setup-windows.ps1, SETUP.md) to consume the new config.
+3. Update documentation (e.g., config/README.md, README.md, SETUP.md) to reference or explain the config.
+4. Remove or deduplicate any inline or duplicated tables/lists in scripts and docs.
+5. Test all installer paths to verify the config is correctly consumed.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: config/models.csv, config/tools.csv, templates/CLAUDE.md.tmpl
+
+---
+id: ai-dev-setup-workflow-cross-platform-installer-refactor
+trigger: "when doing cross platform installer refactor"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Workflow Cross Platform Installer Refactor
+
+## Action
+
+Follow the cross-platform-installer-refactor workflow:
+1. Update or refactor setup-windows.ps1 (Windows bootstrap) to delegate to runners/install.ps1.
+2. Update runners/install.ps1 to consume new config or logic.
+3. Update SETUP.md (bash path) to consume the same config or logic.
+4. Verify that both installer paths (PowerShell and bash) produce the same results.
+5. Test parsing and selection logic on both platforms.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: setup-windows.ps1, runners/install.ps1, SETUP.md
+
+---
+id: ai-dev-setup-workflow-secure-allowlist-skill-agent-installation
+trigger: "when doing secure allowlist skill agent installation"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Workflow Secure Allowlist Skill Agent Installation
+
+## Action
+
+Follow the secure-allowlist-skill-agent-installation workflow:
+1. Update skills-lock.json with new or changed allowlist entries (skills, agents, plugins, MCPs) and their commit SHAs.
+2. Update or create install scripts for both platforms (scripts/install-skills.sh, scripts/install-skills.ps1) to use the allowlist and verify hashes.
+3. Wire the install scripts into both runners/install.ps1 and SETUP.md.
+4. Test end-to-end installation and hash verification on both platforms.
+5. Document the changes in CHANGELOG.md.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: skills-lock.json, scripts/install-skills.sh, scripts/install-skills.ps1
+
+---
+id: ai-dev-setup-workflow-preflight-and-smoke-test-workflow
+trigger: "when doing preflight and smoke test workflow"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Workflow Preflight And Smoke Test Workflow
+
+## Action
+
+Follow the preflight-and-smoke-test-workflow workflow:
+1. Add or update doctor scripts (scripts/doctor.sh, scripts/doctor.ps1) for preflight and audit checks.
+2. Add or update smoke test scripts (tests/smoke.sh, tests/smoke.ps1) for validation gates.
+3. Update runners/install.ps1 to support preflight checks (e.g., -Check flag).
+4. Update or add CI workflow files (.github/workflows/ci.yml) to run these checks.
+5. Update or add relevant documentation (SECURITY.md, TROUBLESHOOTING.md, etc.).
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: scripts/doctor.sh, scripts/doctor.ps1, tests/smoke.sh
+
+---
+id: ai-dev-setup-instinct-file-naming
+trigger: "When creating a new file in the codebase"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct File Naming
+
+## Action
+
+Name the file using camelCase convention
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.files
+- Consistent with TypeScript best practices
+
+---
+id: ai-dev-setup-instinct-function-naming
+trigger: "When defining a new function"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Function Naming
+
+## Action
+
+Name the function using camelCase convention
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.functions
+
+---
+id: ai-dev-setup-instinct-class-naming
+trigger: "When defining a new class"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Class Naming
+
+## Action
+
+Name the class using PascalCase convention
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.classes
+
+---
+id: ai-dev-setup-instinct-constant-naming
+trigger: "When declaring a constant"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Constant Naming
+
+## Action
+
+Name the constant using SCREAMING_SNAKE_CASE convention
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.constants
+
+---
+id: ai-dev-setup-instinct-import-style
+trigger: "When importing modules in TypeScript files"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Import Style
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in codeStyle.importStyle
+
+---
+id: ai-dev-setup-instinct-export-style
+trigger: "When exporting modules or functions"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in codeStyle.exportStyle
+
+---
+id: ai-dev-setup-instinct-test-location
+trigger: "When adding new tests"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Test Location
+
+## Action
+
+Place tests in the separate 'tests' folder
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+- Presence of 'tests' folder
+
+---
+id: ai-dev-setup-instinct-test-script-style
+trigger: "When writing test scripts for validation"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Test Script Style
+
+## Action
+
+Create both Unix (.sh) and Windows (.ps1) versions for cross-platform compatibility
+
+## Evidence
+
+- Presence of tests/smoke.sh and tests/smoke.ps1
+- Pattern in preflight-and-smoke-test-workflow
+
+---
+id: ai-dev-setup-instinct-preflight-checks
+trigger: "When adding or updating installation scripts"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Preflight Checks
+
+## Action
+
+Include preflight doctor scripts for environment validation
+
+## Evidence
+
+- Pattern in preflight-and-smoke-test-workflow
+- Presence of scripts/doctor.sh and scripts/doctor.ps1
+
+---
+id: ai-dev-setup-instinct-commit-format
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Commit Format
+
+## Action
+
+Start the message with a 'P0 Sprint X' prefix and a concise summary of the change
+
+## Evidence
+
+- Pattern in commits.examples
+- Average commit length and structure
+
+---
+id: ai-dev-setup-instinct-single-source-config
+trigger: "When adding or updating a core configuration (e.g., models, tools)"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Single Source Config
+
+## Action
+
+Update the config file(s) and refactor all installer scripts and docs to consume the new config, removing duplication
+
+## Evidence
+
+- Workflow: single-source-of-truth-config-integration
+- Commits updating config/models.csv and refactoring consumers
+
+---
+id: ai-dev-setup-instinct-cross-platform-installer
+trigger: "When introducing a new install step or config"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Cross Platform Installer
+
+## Action
+
+Refactor both Windows and Unix installers to consume shared logic/config and ensure feature parity
+
+## Evidence
+
+- Workflow: cross-platform-installer-refactor
+- Commits updating setup-windows.ps1 and runners/install.ps1
+
+---
+id: ai-dev-setup-instinct-secure-allowlist
+trigger: "When changing which skills/agents are installed or updating their pinned SHAs"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Secure Allowlist
+
+## Action
+
+Update skills-lock.json and ensure both platform installers use the allowlist with hash verification
+
+## Evidence
+
+- Workflow: secure-allowlist-skill-agent-installation
+- Commits updating skills-lock.json and install scripts
+
+---
+id: ai-dev-setup-instinct-preflight-smoke-workflow
+trigger: "When adding new validation checks or expanding CI coverage"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Preflight Smoke Workflow
+
+## Action
+
+Add or update preflight doctor scripts, smoke tests, wire into CI, and update documentation
+
+## Evidence
+
+- Workflow: preflight-and-smoke-test-workflow
+- Commits adding scripts/doctor.sh, tests/smoke.sh, and updating CI
+
