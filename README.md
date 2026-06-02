@@ -75,14 +75,8 @@ Log changes to SETUP_LOG.md."
 
 ## Local LLM Selection
 
-Automatically detected from RAM + GPU at setup time:
-
-| RAM | Apple Silicon | NVIDIA GPU | CPU Only |
-|-----|--------------|------------|----------|
-| 8 GB | llama3.2:3b | phi4-mini | llama3.2:3b |
-| 16 GB | qwen3:8b | qwen3:8b | llama3.2:3b |
-| 32 GB | qwen3:14b | qwen3:14b | qwen3:8b |
-| 64 GB+ | qwen3:32b | qwen3:32b | qwen3:14b |
+Auto-selected from RAM + GPU at setup time. The model tiers live in **one place** —
+[`config/models.csv`](config/models.csv) — which both installers read (no duplicated tables).
 
 ## Workflow Patterns
 
