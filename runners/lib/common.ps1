@@ -3,6 +3,14 @@
 
 Set-StrictMode -Version Latest
 
+# ── Console UI helpers (shared by the installer) ──
+function Write-Header($text) { Write-Host "`n=== $text ===" -ForegroundColor Cyan }
+function Write-OK($text)     { Write-Host "  [OK] $text" -ForegroundColor Green }
+function Write-Info($text)   { Write-Host "  ... $text" -ForegroundColor Gray }
+function Write-Warn($text)   { Write-Host "  [!] $text" -ForegroundColor Yellow }
+function Write-Step($text)   { Write-Host "  --> $text" }
+function Test-Command($name) { return $null -ne (Get-Command $name -ErrorAction SilentlyContinue) }
+
 function Get-RepoRoot {
     # This lib lives at <repo>/runners/lib/common.ps1
     return (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
