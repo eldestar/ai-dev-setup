@@ -243,13 +243,8 @@ if (Test-Command "claude") {
 
 # ── Skills + Agents (pinned allowlist) ────────────────────────────────────────
 Write-Header "Skills + Agents (pinned allowlist)"
-# Bulk installs of antigravity-awesome-skills (~1,443) and agency-agents (~184) were
-# removed in P0 — loading unvetted instruction files into a shell-capable agent is a
-# prompt-injection surface. Skills/agents come from a curated, pinned, SHA-verified
-# allowlist (skills-lock.json), wired in during Sprint 2.
-New-Item -ItemType Directory -Path "$HOME\.claude\skills" -Force | Out-Null
-New-Item -ItemType Directory -Path "$HOME\.claude\agents" -Force | Out-Null
-Write-OK "Skills/agents come from the pinned allowlist (skills-lock.json), not a bulk install"
+# Installs ONLY the pinned, SHA-256-verified allowlist in skills-lock.json (no bulk install).
+& (Join-Path $RepoRoot 'scripts\install-skills.ps1') -TargetRoot "$HOME\.claude"
 
 # ── Global CLAUDE.md (rendered from templates/CLAUDE.md.tmpl) ──────────────────
 Write-Header "Global CLAUDE.md (rendered from template)"
