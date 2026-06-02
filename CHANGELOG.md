@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.3.0 — 2026-06-02 — P0 Sprint 1-2 (single source of truth + pinned skill allowlist)
+### Added
+- Single source of truth: `config/models.csv`, `config/tools.csv`, `templates/CLAUDE.md.tmpl` — consumed by BOTH installers (SETUP.md ↔ setup-windows.ps1 drift eliminated).
+- `setup-windows.ps1` is now a thin bootstrap that ensures git, clones the repo to `$HOME/ai-dev-setup`, and runs `runners/install.ps1`.
+- `skills-lock.json` v2: authoritative pinned allowlist (skills, agents, plugins, MCP) at commit SHAs.
+- `scripts/install-skills.{sh,ps1}`: install ONLY the allowlist — clone at pinned SHA, copy, **SHA-256 verify** skills; print plugin/MCP commands. Tailored per OS (`shasum`/`sha256sum` vs `Get-FileHash`). Verified end-to-end on both, incl. a hash-mismatch negative test.
+- `.gitattributes` for line-ending consistency.
+### Changed
+- Both installers read model tiers / tool list / CLAUDE.md from the single-source files instead of inline copies; the curated allowlist replaces the removed bulk install.
+
 ## v2.2.0 — 2026-06-01 — P0 Sprint 0 (stop the bleeding)
 ### Removed
 - Bulk skill install (`antigravity-awesome-skills`, ~1,443 unvetted files) — replaced by a curated, pinned, SHA-verified allowlist (`skills-lock.json`).

@@ -410,18 +410,15 @@ command -v autoskills &>/dev/null || npm install -g autoskills
 echo "✓ autoskills available — run 'npx autoskills' in any project"
 ```
 
-### 3.4 Skills & Agents — pinned allowlist (P0)
+### 3.4 Skills & Agents — pinned allowlist
 
-> **Removed in P0:** the bulk install of ~1,443 community skills
-> (`antigravity-awesome-skills`) and ~184 unpinned agent personas (`agency-agents`).
-> Loading thousands of unvetted instruction files into an agent with shell + secret
-> access is a prompt-injection surface. Skills and agents now come from a **curated,
-> pinned, SHA-verified allowlist** — see `skills-lock.json`. Wired in during Sprint 2.
+> Installs ONLY the curated, pinned, **SHA-256-verified** allowlist in `skills-lock.json` — no bulk
+> install. Skills (impeccable, emil) and a reviewed agent subset (wshobson / dl-ezo / VoltAgent) are
+> fetched at pinned commit SHAs and verified. Plugins/MCP (superpowers, codex, spec-kit, github /
+> trivy / semgrep MCP) are printed as the `claude` commands to run (some need browser auth).
 
 ```bash
-mkdir -p ~/.claude/skills ~/.claude/agents
-echo "✓ Skills/agents come from the pinned allowlist (skills-lock.json), not a bulk install."
-echo "  Sprint 2 wires the curated allowlist in."
+bash scripts/install-skills.sh
 ```
 
 ### 3.6 Superpowers (obra)
