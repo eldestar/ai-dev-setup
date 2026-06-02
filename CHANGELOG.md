@@ -1,5 +1,15 @@
 # Changelog
 
+## v2.4.0 — 2026-06-02 — P0 Sprint 3 (preflight, tests, CI, docs)
+### Added
+- `scripts/doctor.{sh,ps1}`: read-only preflight + skill/agent audit vs the lock. `runners/install.ps1 -Check` runs it.
+- `tests/smoke.{sh,ps1}`: fast validation gate (JSON / CSV headers / PS parse / template render / model selection / single-source drift). Green on both shells.
+- `.github/workflows/ci.yml`: shellcheck + bash smoke, PSScriptAnalyzer + pwsh smoke, gitleaks.
+- File logging: the Windows installer tees to `~/.ai-dev-setup/logs/install-<timestamp>.log` (Start-Transcript).
+- Docs: `SECURITY.md`, `docs/COMPONENT_MATRIX.md`, `docs/UNINSTALL.md`, `docs/TROUBLESHOOTING.md`, `docs/SELF_IMPROVEMENT.md`, `docs/adr/0001-p0-foundation.md`.
+### Notes
+- P0 foundation complete (Sprints 0–3). End-to-end install validation still depends on a real run / CI execution.
+
 ## v2.3.0 — 2026-06-02 — P0 Sprint 1-2 (single source of truth + pinned skill allowlist)
 ### Added
 - Single source of truth: `config/models.csv`, `config/tools.csv`, `templates/CLAUDE.md.tmpl` — consumed by BOTH installers (SETUP.md ↔ setup-windows.ps1 drift eliminated).

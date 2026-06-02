@@ -4,11 +4,21 @@
 # Edit those, not inline copies.
 
 #Requires -Version 5.1
+param([switch]$Check)
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Continue"
 
 . "$PSScriptRoot\lib\common.ps1"
 $RepoRoot = Get-RepoRoot
+
+# Preflight-only: report status and exit without changing anything.
+if ($Check) { & (Join-Path $PSScriptRoot '..\scripts\doctor.ps1'); return }
+
+# File logging: tee everything to a timestamped log.
+$logDir  = Join-Path $HOME ".ai-dev-setup\logs"
+New-Item -ItemType Directory -Path $logDir -Force | Out-Null
+$logFile = Join-Path $logDir ("install-" + (Get-Date -Format "yyyyMMdd-HHmmss") + ".log")
+try { Start-Transcript -Path $logFile -Append | Out-Null } catch {}
 
 # ── System Detection ──────────────────────────────────────────────────────────
 Write-Header "System Detection"
@@ -305,3 +315,5 @@ Write-Host "  6. Obsidian: install from obsidian.md -> open ~/vault as vault"
 Write-Host "  7. Edit ~/.claude/CLAUDE.md — fill in your Name and Role"
 Write-Host ""
 Write-Host "  Bootstrap complete. $pass tools installed, $fail missing." -ForegroundColor Green
+try { Stop-Transcript | Out-Null } catch {}
+Write-Host "  Log: $logFile"
