@@ -405,8 +405,9 @@ New-Item -ItemType Directory -Path $profileDir -Force | Out-Null
 $profileLines = @(
     'if (Get-Command starship -ErrorAction SilentlyContinue) { Invoke-Expression (&starship init powershell) }',
     'if (Get-Command mise -ErrorAction SilentlyContinue) { Invoke-Expression (&mise activate powershell) }',
-    'if (Get-Command bat -ErrorAction SilentlyContinue) { Set-Alias -Name cat -Value bat -Option AllScope -Force }',
-    'if (Get-Command rg -ErrorAction SilentlyContinue)  { Set-Alias -Name grep -Value rg  -Option AllScope -Force }',
+    '# Interactive convenience aliases (no -Option AllScope/-Force so they do not override commands inside scripts)',
+    'if (Get-Command bat -ErrorAction SilentlyContinue) { Set-Alias -Name cat -Value bat }',
+    'if (Get-Command rg  -ErrorAction SilentlyContinue) { Set-Alias -Name grep -Value rg }',
     '$env:PATH = "$HOME\.npm-global\bin;" + $env:PATH',
     '$env:PATH = "$HOME\.local\bin;" + $env:PATH'
 )
@@ -450,38 +451,22 @@ if (Test-Command "claude") {
 
 # ── Skills + Agents ───────────────────────────────────────────────────────────
 
-Write-Header "Skills (antigravity-awesome-skills)"
+Write-Header "Skills (pinned allowlist)"
 
-$skillsDir = "$HOME\.claude\skills"
-New-Item -ItemType Directory -Path $skillsDir -Force | Out-Null
+# P0: bulk install of ~1,443 community skills (antigravity-awesome-skills) REMOVED.
+# Loading thousands of unvetted instruction files into an agent with shell + secret
+# access is a prompt-injection surface. Skills now come from a curated, pinned,
+# SHA-verified allowlist (see skills-lock.json), wired in during Sprint 2.
+New-Item -ItemType Directory -Path "$HOME\.claude\skills" -Force | Out-Null
+Write-OK "Skills come from the pinned allowlist (skills-lock.json), not a bulk install"
 
-$skillCount = (Get-ChildItem $skillsDir -ErrorAction SilentlyContinue | Measure-Object).Count
-if ($skillCount -lt 100) {
-    Write-Info "Installing skills..."
-    npx antigravity-awesome-skills --claude 2>&1 | Select-Object -Last 5 | ForEach-Object { Write-Info $_ }
-} else {
-    Write-OK "Skills already installed ($skillCount dirs)"
-}
+Write-Header "Agents (pinned allowlist)"
 
-Write-Header "Agents (agency-agents)"
-
-$agentsDir = "$HOME\.claude\agents"
-New-Item -ItemType Directory -Path $agentsDir -Force | Out-Null
-
-$agentCount = (Get-ChildItem $agentsDir -ErrorAction SilentlyContinue | Measure-Object).Count
-if ($agentCount -lt 10) {
-    Write-Info "Cloning agency-agents..."
-    $tmpAgents = "$env:TEMP\agency-agents"
-    git clone https://github.com/msitarzewski/agency-agents $tmpAgents 2>&1 | Out-Null
-    if (Test-Path "$tmpAgents\agents") {
-        Copy-Item -Path "$tmpAgents\agents\*" -Destination $agentsDir -Recurse -Force 2>&1 | Out-Null
-        Write-OK "Agents installed to $agentsDir"
-    } else {
-        Write-Warn "agency-agents clone failed — install manually from github.com/msitarzewski/agency-agents"
-    }
-} else {
-    Write-OK "Agents already installed ($agentCount agents)"
-}
+# P0: bulk clone of ~184 unpinned agency-agents personas REMOVED (prompt-injection
+# surface; cloned at HEAD with no pin). Agents now come from a reviewed, pinned
+# subset (see skills-lock.json), wired in during Sprint 2.
+New-Item -ItemType Directory -Path "$HOME\.claude\agents" -Force | Out-Null
+Write-OK "Agents come from a reviewed, pinned subset (skills-lock.json), not a bulk clone"
 
 # ── Global CLAUDE.md ──────────────────────────────────────────────────────────
 
@@ -524,8 +509,9 @@ Primary use cases:
 - ruflo: multi-agent orchestration layer
 
 ## Installed Skills
-- antigravity-awesome-skills: security, DevOps, observability bundles
-- agency-agents: specialized agent personas at ~/.claude/agents/
+Curated, pinned allowlist (see skills-lock.json) — not a bulk install.
+- impeccable (pinned), emilkowalski/skill (pinned, personal-use), superpowers (obra), spec-kit, codex plugin
+- A reviewed, pinned subset of vetted agent personas at ~/.claude/agents/
 
 ## How I Work Best
 - Show me what you're going to do before doing it

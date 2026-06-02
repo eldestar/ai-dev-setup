@@ -415,25 +415,18 @@ command -v autoskills &>/dev/null || npm install -g autoskills
 echo "✓ autoskills available — run 'npx autoskills' in any project"
 ```
 
-### 3.4 antigravity-awesome-skills
+### 3.4 Skills & Agents — pinned allowlist (P0)
+
+> **Removed in P0:** the bulk install of ~1,443 community skills
+> (`antigravity-awesome-skills`) and ~184 unpinned agent personas (`agency-agents`).
+> Loading thousands of unvetted instruction files into an agent with shell + secret
+> access is a prompt-injection surface. Skills and agents now come from a **curated,
+> pinned, SHA-verified allowlist** — see `skills-lock.json`. Wired in during Sprint 2.
 
 ```bash
-if [[ ! -d ~/.claude/skills ]] || [[ $(ls ~/.claude/skills 2>/dev/null | wc -l) -lt 100 ]]; then
-  npx antigravity-awesome-skills --claude 2>&1 | tail -5
-else
-  echo "✓ Skills already installed ($(ls ~/.claude/skills | wc -l) dirs)"
-fi
-```
-
-### 3.5 agency-agents
-
-```bash
-if [[ ! -d ~/.claude/agents ]] || [[ $(ls ~/.claude/agents 2>/dev/null | wc -l) -lt 10 ]]; then
-  git clone https://github.com/msitarzewski/agency-agents /tmp/agency-agents 2>&1 | tail -3
-  bash /tmp/agency-agents/scripts/install.sh --tool claude-code 2>&1 | tail -5
-else
-  echo "✓ Agents already installed ($(ls ~/.claude/agents | wc -l) agents)"
-fi
+mkdir -p ~/.claude/skills ~/.claude/agents
+echo "✓ Skills/agents come from the pinned allowlist (skills-lock.json), not a bulk install."
+echo "  Sprint 2 wires the curated allowlist in."
 ```
 
 ### 3.6 Superpowers (obra)
@@ -452,15 +445,6 @@ echo "Note: also works with Codex CLI natively — uses same ~/.claude/skills/ f
 npx skills add pbakaus/impeccable  2>&1 | tail -3
 npx skills add emilkowalski/skill  2>&1 | tail -3
 echo "→ Manual step queued: run /teach-impeccable once per new project"
-```
-
-### 3.8 flow-nexus MCP
-
-```bash
-echo "=== Flow Nexus ==="
-echo "→ MANUAL STEP QUEUED — run in terminal:"
-echo "   npx flow-nexus@latest init -n 'dev-environment' -t swarm --claude"
-echo "   Select: Local development only (no account)"
 ```
 
 **Phase 3 complete. Log to SETUP_LOG.md.**
@@ -745,10 +729,10 @@ Primary use cases:
 - ruv-swarm: swarm-mode agent coordination
 
 ## Installed Skills
-- antigravity-awesome-skills: 1,400+ skills across security, DevOps, observability
-- impeccable: typography, layout, anti-pattern enforcement
-- emilkowalski/skill: motion and animation
-- agency-agents: 200+ specialized agent personas at ~/.claude/agents/
+Curated, pinned allowlist (see skills-lock.json) — not a bulk install.
+- impeccable: typography, layout, anti-pattern enforcement (pinned)
+- emilkowalski/skill: motion and animation (pinned, personal-use)
+- Plus superpowers (obra), spec-kit, codex plugin, and a reviewed subset of vetted agents
 
 ## How I Work Best
 - Show me what you're going to do before doing it
@@ -850,10 +834,6 @@ echo "║     /plugin install ruflo-autopilot@ruflo                    ║"
 echo "║     /plugin install ruflo-testgen@ruflo                      ║"
 echo "║     /plugin install ruflo-adr@ruflo                          ║"
 echo "║     /plugin install ruflo-intelligence@ruflo                 ║"
-echo "║                                                              ║"
-echo "║  7. Flow Nexus (in terminal, not inside claude):             ║"
-echo "║     npx flow-nexus@latest init -n dev -t swarm --claude      ║"
-echo "║     → Select: Local development only (no account)            ║"
 echo "║                                                              ║"
 echo "║  8. Obsidian: download from obsidian.md                      ║"
 echo "║     → Open ~/vault/ as vault                                 ║"
