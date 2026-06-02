@@ -15,8 +15,8 @@ A single executable spec (`SETUP.md`) that Claude Code reads and runs to configu
 | Package managers | uv, pipx, bun, npm |
 | AI coding | Claude Code, Codex CLI, Aider, Ollama |
 | Local LLMs | Auto-selected based on device RAM + GPU |
-| Agent orchestration | Ruflo, ruv-swarm, flow-nexus |
-| Skills & agents | 1,400+ skills, 200+ agent personas |
+| Agent orchestration | Ruflo, ruv-swarm |
+| Skills & agents | Curated, pinned allowlist (see `skills-lock.json`) |
 | Knowledge base | ~/vault/ structure + MCP server + Obsidian templates |
 | Security | gitleaks (pre-commit hook), trivy, semgrep |
 | Secrets | Infisical |
@@ -168,3 +168,7 @@ duckdb -c "SELECT * FROM 'file.csv' LIMIT 10"
 ---
 
 *Feed `SETUP.md` to Claude Code. It does the rest.*
+
+## License / Status
+
+Personal project — **all rights reserved**. Not licensed for redistribution or third-party use. (No open-source license is granted; if that ever changes, an explicit `LICENSE` will be added.)

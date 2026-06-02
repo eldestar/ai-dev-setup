@@ -254,7 +254,7 @@ mise use --global node@lts
 mise exec node@22 -- node --version
 ```
 
-**Installed versions:** Node 24.15.0, Python 3.14.5, Bun 1.3.14
+**Installed versions:** Node 24.15.0, Python 3.12.x, Bun 1.3.14
 
 ---
 
@@ -534,8 +534,8 @@ npx ruflo@latest init wizard
 
 ### AGENTS & SKILLS
 
-#### 207 Agency Agents (`~/.claude/agents/`)
-**What:** Specialized personas Claude can adopt. Installed by agency-agents.
+#### Agents (`~/.claude/agents/`)
+**What:** A curated, pinned subset of vetted agent personas (see skills-lock.json) — not a bulk install.
 
 ```bash
 # Inside a claude session, invoke by name:
@@ -546,10 +546,10 @@ npx ruflo@latest init wizard
 ls ~/.claude/agents/
 ```
 
-Examples: academic-historian, accounts-payable-agent, agents-orchestrator, architecture, security-engineer, technical-writer, workflow-architect.
+Examples (curated subset): security-auditor, code-reviewer, architect-review, test-automator, docs-architect.
 
-#### 1,443 Skills (`~/.claude/skills/`)
-**What:** Pre-built Claude workflows for specific tasks. Installed by antigravity-awesome-skills.
+#### Skills (`~/.claude/skills/`)
+**What:** A curated, pinned, SHA-verified allowlist of skills (see skills-lock.json) — not a bulk install.
 
 ```bash
 # Inside a claude session:

@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.2.0 — 2026-06-01 — P0 Sprint 0 (stop the bleeding)
+### Removed
+- Bulk skill install (`antigravity-awesome-skills`, ~1,443 unvetted files) — replaced by a curated, pinned, SHA-verified allowlist (`skills-lock.json`).
+- Bulk agent install (`agency-agents`, ~184 unpinned personas) — replaced by a reviewed, pinned subset.
+- `flow-nexus` (cloud/credits MCP that was failing to connect).
+### Fixed
+- Stale doc claiming Python 3.14.5 installed (the design pins 3.12).
+- PowerShell `cat`/`grep` aliases no longer use `-Option AllScope -Force` (could override commands inside scripts).
+### Notes
+- Personal-use project; see the P0 review docs for the full hardening plan. Skills/agents allowlist wiring lands in Sprint 2.
+
 ## v2.1.0 — 2026-05-29
 ### Added
 - `setup-windows.ps1` — standalone Windows bootstrap script (no prerequisites needed)
