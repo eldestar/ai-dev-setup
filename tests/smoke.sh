@@ -17,6 +17,33 @@ else
   echo "  [skip] JSON check (no python)"
 fi
 
+# 1b. skills-lock.json v3 schema: tiers+bundles registries, every entry has tier
+if [ -n "$PY" ]; then
+  if "$PY" - "$REPO_ROOT/skills-lock.json" <<'PYEOF'
+import json, sys
+lock = json.load(open(sys.argv[1], encoding="utf-8"))
+assert lock.get("version") == 3, "version != 3"
+assert "tiers" in lock, "missing 'tiers' registry"
+assert "bundles" in lock, "missing 'bundles' registry"
+for s in lock.get("skills", []):
+    assert "tier" in s, "skill '%s' missing 'tier'" % s.get("name")
+for a in lock.get("agents", []):
+    assert "tier" in a, "agent source '%s' missing 'tier'" % a.get("source")
+for p in lock.get("plugins", []):
+    assert "tier" in p, "plugin '%s' missing 'tier'" % p.get("name")
+for m in lock.get("mcp", []):
+    assert "tier" in m, "mcp '%s' missing 'tier'" % m.get("name")
+bundle_names = set(lock.get("bundles", {}).keys())
+for s in lock.get("skills", []):
+    b = s.get("bundle")
+    assert b is None or b in bundle_names, "skill '%s' references undefined bundle '%s'" % (s.get("name"), b)
+print("ok")
+PYEOF
+  then pass "skills-lock.json v3 schema (tiers/bundles/tier fields)"; else bad "skills-lock.json v3 schema invalid"; fi
+else
+  echo "  [skip] v3 schema check (no python)"
+fi
+
 # 2. config CSV headers
 if head -1 "$REPO_ROOT/config/models.csv" | grep -q '^gpu_type,min_gb,primary,fast'; then pass "models.csv header"; else bad "models.csv header"; fi
 if head -1 "$REPO_ROOT/config/tools.csv"  | grep -q '^id,check,scoop,brew';        then pass "tools.csv header";  else bad "tools.csv header";  fi
