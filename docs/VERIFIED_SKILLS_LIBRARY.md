@@ -39,6 +39,21 @@
 | MCP: github / trivy / semgrep | core | platform-dx + security-defensive | official | `github` pinned `@2025.4.8` | github now pinned `@2025.4.8` (no longer unpinned); trivy/semgrep security tooling |
 | MCP: osv-scanner | core | security-defensive | google/osv-scanner | binary (installed separately) | OSV-grade dep review — fills CVE-reachability gap |
 
+### Experimental — mined from ECC (bundle `agentic-ecc`, tier `experimental`, opt-in)
+> Reviewed individually from `affaan-m/ECC` @ `99baa825` (2026-06-02). Pinned per-file with SHA-256 anchors; the ECC aggregator itself is NOT trusted wholesale (see `docs/ECC_TOOLS_TRUST_REVIEW.md` in the eval project). Experimental = not installed by default.
+
+| Skill | True origin | sha256 anchor (SKILL.md) | Why |
+|---|---|---|---|
+| `agentic-engineering` | ECC | `fdd1c187…` | eval-first agent dev doctrine |
+| `context-budget` | ECC | `445cde88…` | audit token/context overhead across components |
+| `agent-architecture-audit` | oh-my-agent-check (vendored) | `1a3d77ff…` | 12-layer agent-stack failure diagnostic |
+| `mcp-server-patterns` | ECC | `be3ba4f4…` | Node/TS MCP server build patterns |
+| `skill-scout` | community/redminwang (vendored) | `20117f09…` | search before creating a skill |
+| `prompt-optimizer` | community/YannJY02 (vendored) | `5dc5e8b5…` | advisory prompt rewriting |
+| `security-review` | ECC | `2243713f…` | security checklist/patterns skill |
+| `strategic-compact` | ECC | `0852364a…` | context-compaction strategy |
+| `agent-eval` | ECC | `d1c64d44…` | head-to-head coding-agent benchmarking |
+
 ---
 
 ## Proposed additions (from the audit — review before adding to the lock)

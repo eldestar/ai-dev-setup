@@ -33,6 +33,10 @@ for p in lock.get("plugins", []):
     assert "tier" in p, "plugin '%s' missing 'tier'" % p.get("name")
 for m in lock.get("mcp", []):
     assert "tier" in m, "mcp '%s' missing 'tier'" % m.get("name")
+bundle_names = set(lock.get("bundles", {}).keys())
+for s in lock.get("skills", []):
+    b = s.get("bundle")
+    assert b is None or b in bundle_names, "skill '%s' references undefined bundle '%s'" % (s.get("name"), b)
 print("ok")
 PYEOF
   then pass "skills-lock.json v3 schema (tiers/bundles/tier fields)"; else bad "skills-lock.json v3 schema invalid"; fi
