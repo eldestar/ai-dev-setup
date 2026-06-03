@@ -3,10 +3,16 @@
 # and verifies SHA-256 anchors for skills. Plugins/MCP are printed as the claude commands to run.
 #
 # Usage:  scripts\install-skills.ps1 [-LockPath <path>] [-TargetRoot <dir>]
+#           [-IncludeExperimental] [-IncludeArchived] [-ListOnly]
+#   Tiers: defaults to core+curated. experimental/archived are opt-in via the switches above.
+#          -ListOnly prints the selected plan and returns before any git clone (dry preview).
 [CmdletBinding()]
 param(
     [string]$LockPath,
-    [string]$TargetRoot = (Join-Path $HOME ".claude")
+    [string]$TargetRoot = (Join-Path $HOME ".claude"),
+    [switch]$IncludeExperimental,
+    [switch]$IncludeArchived,
+    [switch]$ListOnly
 )
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Continue"
@@ -36,8 +42,34 @@ function Get-RepoAtRef {
     return $dir
 }
 
+# Tier selection: defaults to core+curated; experimental/archived are opt-in.
+# A missing 'tier' is treated as 'core' (backward-compat).
+$allowed = @('core', 'curated')
+if ($IncludeExperimental) { $allowed += 'experimental' }
+if ($IncludeArchived)     { $allowed += 'archived' }
+$allowedCsv = ($allowed -join ',')
+$tierOf = { param($e) if ($e.PSObject.Properties['tier']) { $e.tier } else { 'core' } }
+
+$selSkills = @($lock.skills | Where-Object { $allowed -contains (& $tierOf $_) })
+$selAgents = @($lock.agents | Where-Object { $allowed -contains (& $tierOf $_) })
+
+$skillsHint = if (-not $IncludeExperimental) { "  [use -IncludeExperimental to add experimental]" } else { "" }
+$skillsSummary = "Skills: selected $($selSkills.Count) of $(@($lock.skills).Count) (tiers: $allowedCsv)$skillsHint"
+$agentsSummary = "Agents: selected $($selAgents.Count) of $(@($lock.agents).Count) (tiers: $allowedCsv)"
+
+# -ListOnly: print the selected plan and return before any git clone (dry preview).
+if ($ListOnly) {
+    Write-Host "`n=== Dry preview (-ListOnly): no network, nothing installed ===" -ForegroundColor Cyan
+    Write-Host $skillsSummary
+    foreach ($s in $selSkills) { Write-Host "  - $($s.name) ($(& $tierOf $s))" }
+    Write-Host $agentsSummary
+    foreach ($a in $selAgents) { Write-Host "  - $($a.source) ($(& $tierOf $a))" }
+    return
+}
+
 Write-Host "`n=== Skills (pinned, SHA-256 verified) ===" -ForegroundColor Cyan
-foreach ($s in $lock.skills) {
+Write-Host $skillsSummary
+foreach ($s in $selSkills) {
     try {
         $src      = Get-RepoAtRef -Repo $s.repo -Ref $s.ref
         $fromPath = Join-Path $src ($s.from -replace '/', '\')
@@ -56,7 +88,8 @@ foreach ($s in $lock.skills) {
 }
 
 Write-Host "`n=== Agents (pinned, reviewed subset) ===" -ForegroundColor Cyan
-foreach ($a in $lock.agents) {
+Write-Host $agentsSummary
+foreach ($a in $selAgents) {
     try {
         $src = Get-RepoAtRef -Repo $a.repo -Ref $a.ref
         foreach ($prop in $a.files.PSObject.Properties) {
