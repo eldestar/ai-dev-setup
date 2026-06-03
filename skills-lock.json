@@ -221,6 +221,33 @@
         "wshobson-ai-engineer.md": "plugins/llm-application-dev/agents/ai-engineer.md",
         "wshobson-prompt-engineer.md": "plugins/llm-application-dev/agents/prompt-engineer.md"
       }
+    },
+    {
+      "source": "wshobson",
+      "tier": "curated",
+      "bundle": "devops",
+      "repo": "https://github.com/wshobson/agents",
+      "ref": "0818067b4ecad18c234b2ae427cc44f2053792d4",
+      "license": "MIT",
+      "files": {
+        "wshobson-terraform-specialist.md": "plugins/cloud-infrastructure/agents/terraform-specialist.md",
+        "wshobson-kubernetes-architect.md": "plugins/cloud-infrastructure/agents/kubernetes-architect.md",
+        "wshobson-deployment-engineer.md": "plugins/cloud-infrastructure/agents/deployment-engineer.md",
+        "wshobson-devops-troubleshooter.md": "plugins/incident-response/agents/devops-troubleshooter.md",
+        "wshobson-observability-engineer.md": "plugins/observability-monitoring/agents/observability-engineer.md"
+      }
+    },
+    {
+      "source": "wshobson",
+      "tier": "curated",
+      "bundle": "security-defensive",
+      "repo": "https://github.com/wshobson/agents",
+      "ref": "0818067b4ecad18c234b2ae427cc44f2053792d4",
+      "license": "MIT",
+      "files": {
+        "wshobson-backend-security-coder.md": "plugins/backend-api-security/agents/backend-security-coder.md",
+        "wshobson-frontend-security-coder.md": "plugins/frontend-mobile-security/agents/frontend-security-coder.md"
+      }
     }
   ],
   "plugins": [
