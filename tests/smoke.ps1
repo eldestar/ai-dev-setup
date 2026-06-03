@@ -22,6 +22,8 @@ foreach ($s in $lockObj.skills)  { if (-not $s.PSObject.Properties['tier']) { Ba
 foreach ($a in $lockObj.agents)  { if (-not $a.PSObject.Properties['tier']) { Bad "agent '$($a.source)' missing tier"; $v3ok = $false } }
 foreach ($p in $lockObj.plugins) { if (-not $p.PSObject.Properties['tier']) { Bad "plugin '$($p.name)' missing tier"; $v3ok = $false } }
 foreach ($m in $lockObj.mcp)     { if (-not $m.PSObject.Properties['tier']) { Bad "mcp '$($m.name)' missing tier"; $v3ok = $false } }
+$bundleNames = @($lockObj.bundles.PSObject.Properties.Name)
+foreach ($s in $lockObj.skills) { if ($s.PSObject.Properties['bundle'] -and ($bundleNames -notcontains $s.bundle)) { Bad "skill '$($s.name)' references undefined bundle '$($s.bundle)'"; $v3ok = $false } }
 if ($v3ok) { Pass "skills-lock.json v3 schema (tiers/bundles/tier fields)" }
 
 # 2. config CSV headers

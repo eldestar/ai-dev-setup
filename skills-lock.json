@@ -14,7 +14,8 @@
     "dev-core":           { "tier": "curated", "description": "language + framework specialists" },
     "ai-llm":             { "tier": "curated", "description": "RAG, prompting, LLM engineering" },
     "security-defensive": { "tier": "curated", "description": "defensive security skills + agents" },
-    "devops":             { "tier": "curated", "description": "Docker, k8s, Terraform, observability" }
+    "devops":             { "tier": "curated", "description": "Docker, k8s, Terraform, observability" },
+    "agentic-ecc": { "tier": "experimental", "description": "Reviewed skills mined from affaan-m/ECC: agentic engineering, context/eval, MCP, curation" }
   },
   "skills": [
     {
@@ -39,6 +40,114 @@
       "anchor": "SKILL.md",
       "sha256": "3336b2715f90ae121c93ebe41f33c17e18e3fd2d54e7d3c4efb49fe13041b931",
       "license": "Apache-2.0"
+    },
+    {
+      "name": "agentic-engineering",
+      "tier": "experimental",
+      "bundle": "agentic-ecc",
+      "repo": "https://github.com/affaan-m/ECC",
+      "ref": "99baa8250096f2d295583572399a5c9aba2ce312",
+      "from": "skills/agentic-engineering",
+      "anchor": "SKILL.md",
+      "sha256": "fdd1c1873362e98450097ab353831f72d7c5ca4fee929eb799919315675fd014",
+      "license": "MIT",
+      "origin": "ECC"
+    },
+    {
+      "name": "context-budget",
+      "tier": "experimental",
+      "bundle": "agentic-ecc",
+      "repo": "https://github.com/affaan-m/ECC",
+      "ref": "99baa8250096f2d295583572399a5c9aba2ce312",
+      "from": "skills/context-budget",
+      "anchor": "SKILL.md",
+      "sha256": "445cde883bec368477f8657f19011b4dcdaa7ec7202c7fd5ff1bacb76a16e3cc",
+      "license": "MIT",
+      "origin": "ECC"
+    },
+    {
+      "name": "agent-architecture-audit",
+      "tier": "experimental",
+      "bundle": "agentic-ecc",
+      "repo": "https://github.com/affaan-m/ECC",
+      "ref": "99baa8250096f2d295583572399a5c9aba2ce312",
+      "from": "skills/agent-architecture-audit",
+      "anchor": "SKILL.md",
+      "sha256": "1a3d77ff3bed3dea03a11f39f919eb4d671ba54b04a143fd505e13f2bd4aaa13",
+      "license": "MIT",
+      "origin": "oh-my-agent-check (vendored into ECC)"
+    },
+    {
+      "name": "mcp-server-patterns",
+      "tier": "experimental",
+      "bundle": "agentic-ecc",
+      "repo": "https://github.com/affaan-m/ECC",
+      "ref": "99baa8250096f2d295583572399a5c9aba2ce312",
+      "from": "skills/mcp-server-patterns",
+      "anchor": "SKILL.md",
+      "sha256": "be3ba4f456693c0934bf8b66fc36d2f534234150d310b08b444f9512c09500f9",
+      "license": "MIT",
+      "origin": "ECC"
+    },
+    {
+      "name": "skill-scout",
+      "tier": "experimental",
+      "bundle": "agentic-ecc",
+      "repo": "https://github.com/affaan-m/ECC",
+      "ref": "99baa8250096f2d295583572399a5c9aba2ce312",
+      "from": "skills/skill-scout",
+      "anchor": "SKILL.md",
+      "sha256": "20117f099d12aabd1081b19937a50ed84a6f44f36eb9bbd5a911ab0b02fa355c",
+      "license": "MIT",
+      "origin": "community / redminwang (salvaged PR, vendored into ECC)"
+    },
+    {
+      "name": "prompt-optimizer",
+      "tier": "experimental",
+      "bundle": "agentic-ecc",
+      "repo": "https://github.com/affaan-m/ECC",
+      "ref": "99baa8250096f2d295583572399a5c9aba2ce312",
+      "from": "skills/prompt-optimizer",
+      "anchor": "SKILL.md",
+      "sha256": "5dc5e8b55f1fb8f68796921b9a62c4fae92984e89c11058bdf34bb8e19652739",
+      "license": "MIT",
+      "origin": "community / YannJY02 (vendored into ECC)"
+    },
+    {
+      "name": "security-review",
+      "tier": "experimental",
+      "bundle": "agentic-ecc",
+      "repo": "https://github.com/affaan-m/ECC",
+      "ref": "99baa8250096f2d295583572399a5c9aba2ce312",
+      "from": "skills/security-review",
+      "anchor": "SKILL.md",
+      "sha256": "2243713f504aa9d2204d337cbaba37bad1c050c30b32f46e8bd237c7b6538f70",
+      "license": "MIT",
+      "origin": "ECC"
+    },
+    {
+      "name": "strategic-compact",
+      "tier": "experimental",
+      "bundle": "agentic-ecc",
+      "repo": "https://github.com/affaan-m/ECC",
+      "ref": "99baa8250096f2d295583572399a5c9aba2ce312",
+      "from": "skills/strategic-compact",
+      "anchor": "SKILL.md",
+      "sha256": "0852364a8cbc438f45ad4523ea8ac6827f6f273b2daf4b91abc23f6748ebb127",
+      "license": "MIT",
+      "origin": "ECC"
+    },
+    {
+      "name": "agent-eval",
+      "tier": "experimental",
+      "bundle": "agentic-ecc",
+      "repo": "https://github.com/affaan-m/ECC",
+      "ref": "99baa8250096f2d295583572399a5c9aba2ce312",
+      "from": "skills/agent-eval",
+      "anchor": "SKILL.md",
+      "sha256": "d1c64d44deaf19407532dfb8d8a5294a6e0ae72e8cdb7e5a92707fc128879708",
+      "license": "MIT",
+      "origin": "ECC"
     }
   ],
   "agents": [
