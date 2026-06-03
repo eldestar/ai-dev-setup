@@ -15,8 +15,8 @@ A single executable spec (`SETUP.md`) that Claude Code reads and runs to configu
 | Package managers | uv, pipx, bun, npm |
 | AI coding | Claude Code, Codex CLI, Aider, Ollama |
 | Local LLMs | Auto-selected based on device RAM + GPU |
-| Agent orchestration | Ruflo, ruv-swarm, flow-nexus |
-| Skills & agents | 1,400+ skills, 200+ agent personas |
+| Agent orchestration | Ruflo, ruv-swarm |
+| Skills & agents | Curated, pinned allowlist (see `skills-lock.json`) |
 | Knowledge base | ~/vault/ structure + MCP server + Obsidian templates |
 | Security | gitleaks (pre-commit hook), trivy, semgrep |
 | Secrets | Infisical |
@@ -75,14 +75,8 @@ Log changes to SETUP_LOG.md."
 
 ## Local LLM Selection
 
-Automatically detected from RAM + GPU at setup time:
-
-| RAM | Apple Silicon | NVIDIA GPU | CPU Only |
-|-----|--------------|------------|----------|
-| 8 GB | llama3.2:3b | phi4-mini | llama3.2:3b |
-| 16 GB | qwen3:8b | qwen3:8b | llama3.2:3b |
-| 32 GB | qwen3:14b | qwen3:14b | qwen3:8b |
-| 64 GB+ | qwen3:32b | qwen3:32b | qwen3:14b |
+Auto-selected from RAM + GPU at setup time. The model tiers live in **one place** —
+[`config/models.csv`](config/models.csv) — which both installers read (no duplicated tables).
 
 ## Workflow Patterns
 
@@ -168,3 +162,7 @@ duckdb -c "SELECT * FROM 'file.csv' LIMIT 10"
 ---
 
 *Feed `SETUP.md` to Claude Code. It does the rest.*
+
+## License / Status
+
+Personal project — **all rights reserved**. Not licensed for redistribution or third-party use. (No open-source license is granted; if that ever changes, an explicit `LICENSE` will be added.)

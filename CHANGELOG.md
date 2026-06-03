@@ -1,5 +1,36 @@
 # Changelog
 
+## v2.4.0 — 2026-06-02 — P0 Sprint 3 (preflight, tests, CI, docs)
+### Added
+- `scripts/doctor.{sh,ps1}`: read-only preflight + skill/agent audit vs the lock. `runners/install.ps1 -Check` runs it.
+- `tests/smoke.{sh,ps1}`: fast validation gate (JSON / CSV headers / PS parse / template render / model selection / single-source drift). Green on both shells.
+- `.github/workflows/ci.yml`: shellcheck + bash smoke, PSScriptAnalyzer + pwsh smoke, gitleaks.
+- File logging: the Windows installer tees to `~/.ai-dev-setup/logs/install-<timestamp>.log` (Start-Transcript).
+- Docs: `SECURITY.md`, `docs/COMPONENT_MATRIX.md`, `docs/UNINSTALL.md`, `docs/TROUBLESHOOTING.md`, `docs/SELF_IMPROVEMENT.md`, `docs/adr/0001-p0-foundation.md`.
+### Notes
+- P0 foundation complete (Sprints 0–3). End-to-end install validation still depends on a real run / CI execution.
+
+## v2.3.0 — 2026-06-02 — P0 Sprint 1-2 (single source of truth + pinned skill allowlist)
+### Added
+- Single source of truth: `config/models.csv`, `config/tools.csv`, `templates/CLAUDE.md.tmpl` — consumed by BOTH installers (SETUP.md ↔ setup-windows.ps1 drift eliminated).
+- `setup-windows.ps1` is now a thin bootstrap that ensures git, clones the repo to `$HOME/ai-dev-setup`, and runs `runners/install.ps1`.
+- `skills-lock.json` v2: authoritative pinned allowlist (skills, agents, plugins, MCP) at commit SHAs.
+- `scripts/install-skills.{sh,ps1}`: install ONLY the allowlist — clone at pinned SHA, copy, **SHA-256 verify** skills; print plugin/MCP commands. Tailored per OS (`shasum`/`sha256sum` vs `Get-FileHash`). Verified end-to-end on both, incl. a hash-mismatch negative test.
+- `.gitattributes` for line-ending consistency.
+### Changed
+- Both installers read model tiers / tool list / CLAUDE.md from the single-source files instead of inline copies; the curated allowlist replaces the removed bulk install.
+
+## v2.2.0 — 2026-06-01 — P0 Sprint 0 (stop the bleeding)
+### Removed
+- Bulk skill install (`antigravity-awesome-skills`, ~1,443 unvetted files) — replaced by a curated, pinned, SHA-verified allowlist (`skills-lock.json`).
+- Bulk agent install (`agency-agents`, ~184 unpinned personas) — replaced by a reviewed, pinned subset.
+- `flow-nexus` (cloud/credits MCP that was failing to connect).
+### Fixed
+- Stale doc claiming Python 3.14.5 installed (the design pins 3.12).
+- PowerShell `cat`/`grep` aliases no longer use `-Option AllScope -Force` (could override commands inside scripts).
+### Notes
+- Personal-use project; see the P0 review docs for the full hardening plan. Skills/agents allowlist wiring lands in Sprint 2.
+
 ## v2.1.0 — 2026-05-29
 ### Added
 - `setup-windows.ps1` — standalone Windows bootstrap script (no prerequisites needed)

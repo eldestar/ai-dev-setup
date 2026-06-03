@@ -1,0 +1,12 @@
+# Normalize line endings so shell scripts and config don't get CRLF on Windows checkouts.
+* text=auto eol=lf
+
+# Windows-native PowerShell stays CRLF
+*.ps1  text eol=crlf
+*.psm1 text eol=crlf
+*.psd1 text eol=crlf
+
+# Must remain LF (shell scripts, data, templates)
+*.sh   text eol=lf
+*.csv  text eol=lf
+*.tmpl text eol=lf
