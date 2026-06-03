@@ -12,32 +12,32 @@
 
 ---
 
-## Currently pinned (skills-lock.json v2)
+## Currently pinned (skills-lock.json v3)
 
-### Skills (Tier 0 — core)
-| Name | Source | Ref (pin) | License | Notes |
-|---|---|---|---|---|
-| `impeccable` | pbakaus/impeccable | `69b5f3a…` | Apache-2.0 | design/UI; `.claude/skills/impeccable` dir; SHA-256 anchor on SKILL.md |
-| `emil-design-eng` | emilkowalski/skill | `ecf66bb…` | NOASSERTION | motion/design; **personal-only** scope; SHA-256 anchor |
+### Skills
+| Name | Tier | Bundle | Source | Ref (pin) | License | Notes |
+|---|---|---|---|---|---|---|
+| `impeccable` | core | frontend-design | pbakaus/impeccable | `69b5f3a…` | Apache-2.0 | design/UI; SHA-256 anchor on SKILL.md |
+| `emil-design-eng` | core | frontend-design | emilkowalski/skill | `ecf66bb…` | NOASSERTION | motion/design; **personal-only** scope |
 
-### Agents (Tier 0 — curated subset of 12)
-| Source | Repo | Ref | License | Personas |
-|---|---|---|---|---|
-| wshobson | wshobson/agents | `0818067…` | MIT | security-auditor, code-reviewer, architect-review, test-automator, docs-architect |
-| dl-ezo | dl-ezo/claude-code-sub-agents | `532213d…` | MIT | design-reviewer, test-suite-generator |
-| voltagent | VoltAgent/awesome-claude-code-subagents | `2f9cf8b…` | MIT | compliance-auditor, error-detective, dx-optimizer, dependency-manager, git-workflow-manager |
+### Agents
+| Source | Tier | Bundle | Repo | Ref | License | Personas |
+|---|---|---|---|---|---|---|
+| wshobson | core | dev-loop-agents | wshobson/agents | `0818067…` | MIT | security-auditor, code-reviewer, architect-review, test-automator, docs-architect |
+| dl-ezo | core | dev-loop-agents | dl-ezo/claude-code-sub-agents | `532213d…` | MIT | design-reviewer, test-suite-generator |
+| voltagent | core | dev-loop-agents | VoltAgent/awesome-claude-code-subagents | `2f9cf8b…` | MIT | compliance-auditor, error-detective, dx-optimizer, dependency-manager, git-workflow-manager |
 
 ### Plugins / MCP (install via `claude`)
-| Name | Source | Ref | Notes |
-|---|---|---|---|
-| claude-plugins-official | anthropics/claude-plugins-official | `bf7e852…` | Anthropic-curated marketplace |
-| superpowers | obra/superpowers-marketplace | `af4c8d8…` | methodology (Jesse Vincent) |
-| codex | openai/codex-plugin-cc | `807e03a…` | cross-model review (installed locally, v1.0.4) |
-| security-review | anthropics/claude-code-security-review | `0c6a49f…` | first-party `/security-review` |
-| anthropics-skills | anthropics/skills | `da20c92…` | doc skills source-available; **make docx/pdf/pptx/xlsx explicit `sha256` entries** (see audit) |
-| spec-kit | github/spec-kit | (uv tool) | spec-driven workflow |
-| MCP: github / trivy / semgrep | official | — | ⚠ `github`/`semgrep` use unpinned `npx -y` — pin `@version` (latent gap) |
-| MCP: osv-scanner | google/osv-scanner | binary (installed separately) | OSV-grade dep review — fills CVE-reachability gap |
+| Name | Tier | Bundle | Source | Ref | Notes |
+|---|---|---|---|---|---|
+| claude-plugins-official | core | platform-dx | anthropics/claude-plugins-official | `bf7e852…` | Anthropic-curated marketplace |
+| superpowers | core | platform-dx | obra/superpowers-marketplace | `af4c8d8…` | methodology (Jesse Vincent) |
+| codex | core | platform-dx | openai/codex-plugin-cc | `807e03a…` | cross-model review (installed locally, v1.0.4) |
+| security-review | core | security-defensive | anthropics/claude-code-security-review | `0c6a49f…` | first-party `/security-review` |
+| anthropics-skills | core | platform-dx | anthropics/skills | `da20c92…` | doc skills source-available; **make docx/pdf/pptx/xlsx explicit `sha256` entries** (see audit) |
+| spec-kit | core | platform-dx | github/spec-kit | (uv tool) | spec-driven workflow |
+| MCP: github / trivy / semgrep | core | platform-dx + security-defensive | official | `github` pinned `@2025.4.8` | github now pinned `@2025.4.8` (no longer unpinned); trivy/semgrep security tooling |
+| MCP: osv-scanner | core | security-defensive | google/osv-scanner | binary (installed separately) | OSV-grade dep review — fills CVE-reachability gap |
 
 ---
 
