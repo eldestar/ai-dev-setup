@@ -15,7 +15,8 @@
     "ai-llm":             { "tier": "curated", "description": "RAG, prompting, LLM engineering" },
     "security-defensive": { "tier": "curated", "description": "defensive security skills + agents" },
     "devops":             { "tier": "curated", "description": "Docker, k8s, Terraform, observability" },
-    "agentic-ecc": { "tier": "experimental", "description": "Reviewed skills mined from affaan-m/ECC: agentic engineering, context/eval, MCP, curation" }
+    "agentic-ecc": { "tier": "experimental", "description": "Reviewed skills mined from affaan-m/ECC: agentic engineering, context/eval, MCP, curation" },
+    "doc-skills": { "tier": "curated", "description": "Anthropic first-party document-generation skills (docx/pdf/pptx/xlsx)" }
   },
   "skills": [
     {
@@ -148,6 +149,66 @@
       "sha256": "d1c64d44deaf19407532dfb8d8a5294a6e0ae72e8cdb7e5a92707fc128879708",
       "license": "MIT",
       "origin": "ECC"
+    },
+    {
+      "name": "claude-api",
+      "tier": "core",
+      "bundle": "ai-llm",
+      "repo": "https://github.com/anthropics/skills",
+      "ref": "da20c92503b2e8ff1cf28ca81a0df4673debdbf7",
+      "from": "skills/claude-api",
+      "anchor": "SKILL.md",
+      "sha256": "689967654e9a376a00733b73d0cada317dc7b13e77d6a1a8d8795f8b907f9ed8",
+      "license": "source-available (Anthropic)",
+      "origin": "anthropics/skills (first-party)"
+    },
+    {
+      "name": "docx",
+      "tier": "curated",
+      "bundle": "doc-skills",
+      "repo": "https://github.com/anthropics/skills",
+      "ref": "da20c92503b2e8ff1cf28ca81a0df4673debdbf7",
+      "from": "skills/docx",
+      "anchor": "SKILL.md",
+      "sha256": "1c4df72061111588437a86cd1551b8183c131048efb8861cab659804d5bdcbd4",
+      "license": "source-available (Anthropic)",
+      "origin": "anthropics/skills (first-party)"
+    },
+    {
+      "name": "pdf",
+      "tier": "curated",
+      "bundle": "doc-skills",
+      "repo": "https://github.com/anthropics/skills",
+      "ref": "da20c92503b2e8ff1cf28ca81a0df4673debdbf7",
+      "from": "skills/pdf",
+      "anchor": "SKILL.md",
+      "sha256": "067401220db5745f719ff8c048d545d5edc8545e809668a3a6f9e2892fa51d48",
+      "license": "source-available (Anthropic)",
+      "origin": "anthropics/skills (first-party)"
+    },
+    {
+      "name": "pptx",
+      "tier": "curated",
+      "bundle": "doc-skills",
+      "repo": "https://github.com/anthropics/skills",
+      "ref": "da20c92503b2e8ff1cf28ca81a0df4673debdbf7",
+      "from": "skills/pptx",
+      "anchor": "SKILL.md",
+      "sha256": "5d91c30e63ef72cd1ff10446702401f9ebb3f32dd7b264f50959a95548a225bf",
+      "license": "source-available (Anthropic)",
+      "origin": "anthropics/skills (first-party)"
+    },
+    {
+      "name": "xlsx",
+      "tier": "curated",
+      "bundle": "doc-skills",
+      "repo": "https://github.com/anthropics/skills",
+      "ref": "da20c92503b2e8ff1cf28ca81a0df4673debdbf7",
+      "from": "skills/xlsx",
+      "anchor": "SKILL.md",
+      "sha256": "7de127f835149f9c755fdf70d2ce4320e78a720dacf9f82495165de63b52732d",
+      "license": "source-available (Anthropic)",
+      "origin": "anthropics/skills (first-party)"
     }
   ],
   "agents": [
