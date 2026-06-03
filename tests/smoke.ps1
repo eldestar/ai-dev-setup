@@ -12,6 +12,18 @@ Write-Host "=== smoke tests (pwsh) ==="
 try { Get-Content (Join-Path $RepoRoot 'skills-lock.json') -Raw | ConvertFrom-Json | Out-Null; Pass "skills-lock.json valid JSON" }
 catch { Bad "skills-lock.json invalid JSON" }
 
+# 1b. v3 schema: tiers+bundles registries, every entry has tier
+$lockObj = Get-Content (Join-Path $RepoRoot 'skills-lock.json') -Raw | ConvertFrom-Json
+$v3ok = $true
+if ($lockObj.version -ne 3)                        { Bad "skills-lock.json version != 3"; $v3ok = $false }
+if (-not $lockObj.PSObject.Properties['tiers'])    { Bad "skills-lock.json missing 'tiers' registry"; $v3ok = $false }
+if (-not $lockObj.PSObject.Properties['bundles'])  { Bad "skills-lock.json missing 'bundles' registry"; $v3ok = $false }
+foreach ($s in $lockObj.skills)  { if (-not $s.PSObject.Properties['tier']) { Bad "skill '$($s.name)' missing tier"; $v3ok = $false } }
+foreach ($a in $lockObj.agents)  { if (-not $a.PSObject.Properties['tier']) { Bad "agent '$($a.source)' missing tier"; $v3ok = $false } }
+foreach ($p in $lockObj.plugins) { if (-not $p.PSObject.Properties['tier']) { Bad "plugin '$($p.name)' missing tier"; $v3ok = $false } }
+foreach ($m in $lockObj.mcp)     { if (-not $m.PSObject.Properties['tier']) { Bad "mcp '$($m.name)' missing tier"; $v3ok = $false } }
+if ($v3ok) { Pass "skills-lock.json v3 schema (tiers/bundles/tier fields)" }
+
 # 2. config CSV headers
 if ((Get-Content (Join-Path $RepoRoot 'config\models.csv') -First 1) -eq 'gpu_type,min_gb,primary,fast') { Pass "models.csv header" } else { Bad "models.csv header" }
 if ((Get-Content (Join-Path $RepoRoot 'config\tools.csv')  -First 1) -eq 'id,check,scoop,brew')          { Pass "tools.csv header" }  else { Bad "tools.csv header" }
