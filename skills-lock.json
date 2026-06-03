@@ -94,7 +94,7 @@
     { "name": "spec-kit",                "tier": "core", "bundle": "platform-dx", "repo": "github/spec-kit",                           "ref": "ed10b32014431a15c4e54e4ed7c92452230dd193", "install": "uv tool install specify-cli --from git+https://github.com/github/spec-kit.git" }
   ],
   "mcp": [
-    { "name": "github",  "tier": "core", "bundle": "platform-dx", "cmd": "claude mcp add github -- npx -y @modelcontextprotocol/server-github", "note": "TODO: pin to @version — see Task 7" },
+    { "name": "github", "tier": "core", "bundle": "platform-dx", "cmd": "claude mcp add github -- npx -y @modelcontextprotocol/server-github@2025.4.8", "note": "needs a scoped GitHub PAT (env GITHUB_PERSONAL_ACCESS_TOKEN); pinned @2025.4.8" },
     { "name": "trivy",   "tier": "core", "bundle": "security-defensive", "cmd": "trivy mcp", "note": "fully local vuln/secret/misconfig scanning (Aqua official plugin)" },
     { "name": "semgrep", "tier": "core", "bundle": "security-defensive", "cmd": "claude mcp add semgrep -- semgrep mcp", "note": "fully local SAST via the semgrep binary's MCP" }
   ]
