@@ -42,6 +42,19 @@
 | `wshobson-ai-engineer.md` | ai-llm | plugins/llm-application-dev/agents/ai-engineer.md |
 | `wshobson-prompt-engineer.md` | ai-llm | plugins/llm-application-dev/agents/prompt-engineer.md |
 
+### Agents — Tier-0 specialists (curated, batch 2: DevOps + security)
+> From `wshobson/agents` @ `0818067`. DevOps + defensive-security specialists (Terraform/k8s satisfy the audit's IaC/k8s targets; security-coder agents complement the pinned security-auditor without duplicating it).
+
+| Target file | Bundle | wshobson path |
+|---|---|---|
+| `wshobson-terraform-specialist.md` | devops | plugins/cloud-infrastructure/agents/terraform-specialist.md |
+| `wshobson-kubernetes-architect.md` | devops | plugins/cloud-infrastructure/agents/kubernetes-architect.md |
+| `wshobson-deployment-engineer.md` | devops | plugins/cloud-infrastructure/agents/deployment-engineer.md |
+| `wshobson-devops-troubleshooter.md` | devops | plugins/incident-response/agents/devops-troubleshooter.md |
+| `wshobson-observability-engineer.md` | devops | plugins/observability-monitoring/agents/observability-engineer.md |
+| `wshobson-backend-security-coder.md` | security-defensive | plugins/backend-api-security/agents/backend-security-coder.md |
+| `wshobson-frontend-security-coder.md` | security-defensive | plugins/frontend-mobile-security/agents/frontend-security-coder.md |
+
 ### Plugins / MCP (install via `claude`)
 | Name | Tier | Bundle | Source | Ref | Notes |
 |---|---|---|---|---|---|
