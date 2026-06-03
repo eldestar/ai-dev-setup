@@ -37,6 +37,7 @@
 | anthropics-skills | anthropics/skills | `da20c92…` | doc skills source-available; **make docx/pdf/pptx/xlsx explicit `sha256` entries** (see audit) |
 | spec-kit | github/spec-kit | (uv tool) | spec-driven workflow |
 | MCP: github / trivy / semgrep | official | — | ⚠ `github`/`semgrep` use unpinned `npx -y` — pin `@version` (latent gap) |
+| MCP: osv-scanner | google/osv-scanner | binary (installed separately) | OSV-grade dep review — fills CVE-reachability gap |
 
 ---
 
