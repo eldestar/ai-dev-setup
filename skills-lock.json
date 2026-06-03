@@ -192,6 +192,35 @@
         "voltagent-dependency-manager.md": "categories/06-developer-experience/dependency-manager.md",
         "voltagent-git-workflow-manager.md": "categories/06-developer-experience/git-workflow-manager.md"
       }
+    },
+    {
+      "source": "wshobson",
+      "tier": "curated",
+      "bundle": "dev-core",
+      "repo": "https://github.com/wshobson/agents",
+      "ref": "0818067b4ecad18c234b2ae427cc44f2053792d4",
+      "license": "MIT",
+      "files": {
+        "wshobson-python-pro.md": "plugins/python-development/agents/python-pro.md",
+        "wshobson-typescript-pro.md": "plugins/javascript-typescript/agents/typescript-pro.md",
+        "wshobson-javascript-pro.md": "plugins/javascript-typescript/agents/javascript-pro.md",
+        "wshobson-rust-pro.md": "plugins/systems-programming/agents/rust-pro.md",
+        "wshobson-golang-pro.md": "plugins/systems-programming/agents/golang-pro.md",
+        "wshobson-fastapi-pro.md": "plugins/python-development/agents/fastapi-pro.md",
+        "wshobson-frontend-developer.md": "plugins/frontend-mobile-development/agents/frontend-developer.md"
+      }
+    },
+    {
+      "source": "wshobson",
+      "tier": "curated",
+      "bundle": "ai-llm",
+      "repo": "https://github.com/wshobson/agents",
+      "ref": "0818067b4ecad18c234b2ae427cc44f2053792d4",
+      "license": "MIT",
+      "files": {
+        "wshobson-ai-engineer.md": "plugins/llm-application-dev/agents/ai-engineer.md",
+        "wshobson-prompt-engineer.md": "plugins/llm-application-dev/agents/prompt-engineer.md"
+      }
     }
   ],
   "plugins": [
