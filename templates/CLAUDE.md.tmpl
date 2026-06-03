@@ -1,0 +1,83 @@
+# Global Claude Code Context
+
+## Who I Am
+Name: {{NAME}}
+Role: {{ROLE}}
+Primary use cases:
+1. {{USE_CASE_1}}
+2. {{USE_CASE_2}}
+3. {{USE_CASE_3}}
+
+## My Machine
+- {{MACHINE_CPU}}
+- RAM: {{MACHINE_RAM_GB}}GB
+- GPU: {{MACHINE_GPU}}
+- OS: {{MACHINE_OS}}
+- Shell: {{MACHINE_SHELL}} with starship prompt
+
+## My Tech Stack
+- Runtimes: Node LTS, Python 3.12, Bun (via mise)
+- Package managers: uv (Python), bun/npm (JS)
+- AI tools: Claude Code, Codex CLI, Aider (local Ollama), Ollama
+- Agent orchestration: Ruflo + ruv-swarm
+- Knowledge base: Obsidian vault at ~/vault/
+- Secrets: Infisical (replaces .env files)
+- Version control: git with gitleaks pre-commit hook
+
+## Available MCP Servers
+- vault: ~/vault/ — personal knowledge base
+- ruflo: multi-agent orchestration
+
+## Installed Skills
+Curated, pinned allowlist (see skills-lock.json) — not a bulk install.
+- impeccable: typography, layout, anti-pattern enforcement (pinned)
+- emilkowalski/skill: motion and animation (pinned, personal-use)
+- superpowers (obra): brainstorm / plan / execute / TDD / code-review
+- spec-kit, codex plugin, and a reviewed subset of vetted agents at ~/.claude/agents/
+
+## How I Work Best
+- Show me what you're going to do before doing it
+- Ask before modifying existing files
+- Batch related tasks into one message
+- Prefer uv for Python deps, bun for JS deps
+- Spec-kit workflow for new projects: specify → clarify → plan → tasks → implement
+
+## IRON RULES
+- Never commit secrets, API keys, or credentials
+- Never run destructive operations without confirmation
+- Always run gitleaks protect --staged before committing
+- Run /codex:adversarial-review on any plan longer than 5 steps before implementing
+- Spend 30-90 minutes planning before writing code — implementation is the easy part
+
+## Model Selection Guide
+- Claude Code: architecture, design thinking, creative problem solving (Claude Pro)
+- Codex: surgical precision, targeted changes, auditing, plan review (ChatGPT Plus)
+- Aider: ollama/{{PRIMARY_MODEL}} by default — free, local, no quota
+- Free fallback: ollama run {{FAST_MODEL}} — fastest local inference
+
+## Claude + Codex Dynamic Duo Patterns
+- Pattern 1 — Code Review: /codex:review (read-only, non-steerable)
+- Pattern 2 — Adversarial Planning: /codex:adversarial-review [plan]
+- Pattern 3 — Background Audit: /codex:rescue --background (Codex audits, Claude keeps building)
+- Pattern 4 — Pre-Ship Gate: /codex:rescue (security, privacy, data exposure)
+- Pattern 5 — Full Loop: Claude plans → Codex reviews → Claude refines → repeat → implement
+
+## Codex Slash Commands
+- /codex:review — read-only code audit
+- /codex:adversarial-review — targeted plan review
+- /codex:rescue — full codebase audit (add --background to run async)
+- /codex:status / /codex:result — check and retrieve background jobs
+
+## Auth Notes
+- Claude Code: Claude Pro OAuth (not API key)
+- Codex CLI: ChatGPT Plus OAuth (not API key)
+- Aider: local Ollama (free)
+- Subscription quotas shared with web usage — heavy web chat reduces CLI quota
+
+## Knowledge Base
+Vault at ~/vault/ — use the vault MCP server to read/write notes.
+AGENTS.md at ~/vault/AGENTS.md describes the vault structure.
+
+## Ruflo Integration
+When working on multi-file tasks, use ToolSearch to find and invoke ruflo MCP tools.
+Key tools: memory_store, memory_search, hooks_route, swarm_init, agent_spawn.

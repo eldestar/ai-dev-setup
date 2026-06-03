@@ -85,25 +85,20 @@ echo "GPU:  ${GPU_LABEL}"
 
 # --- LLM Recommendation ---
 echo ""
-echo "=== Recommended Ollama Models ==="
+echo "=== Recommended Ollama Models (from config/models.csv) ==="
 
-if [[ "$GPU_TYPE" == "apple_silicon" ]]; then
-  if   (( RAM_GB >= 64 )); then PRIMARY="qwen3:32b";  FAST="qwen3:14b"
-  elif (( RAM_GB >= 32 )); then PRIMARY="qwen3:14b";  FAST="qwen3:8b"
-  elif (( RAM_GB >= 16 )); then PRIMARY="qwen3:8b";   FAST="llama3.2:3b"
-  else                          PRIMARY="llama3.2:3b"; FAST="qwen3:1.7b"
-  fi
-elif [[ "$GPU_TYPE" == "nvidia" ]]; then
-  if   (( VRAM_GB >= 24 )); then PRIMARY="qwen3:32b";  FAST="qwen3:14b"
-  elif (( VRAM_GB >= 16 )); then PRIMARY="qwen3:14b";  FAST="qwen3:8b"
-  elif (( VRAM_GB >= 8  )); then PRIMARY="qwen3:8b";   FAST="llama3.2:3b"
-  else                           PRIMARY="llama3.2:3b"; FAST="phi4-mini"
-  fi
-else
-  # CPU only — keep models small
-  PRIMARY="llama3.2:3b"
-  FAST="qwen3:1.7b"
-fi
+# Single source of truth: config/models.csv (gpu_type,min_gb,primary,fast).
+# nvidia selects on VRAM; apple_silicon / cpu_only select on RAM; amd -> cpu_only.
+# Rows are ordered high->low min_gb per gpu_type, so the first row with min_gb <= capacity wins.
+LOOKUP="$GPU_TYPE"; [[ "$GPU_TYPE" == "amd" ]] && LOOKUP="cpu_only"
+CAP=$RAM_GB; [[ "$GPU_TYPE" == "nvidia" ]] && CAP=$VRAM_GB
+PRIMARY=""; FAST=""
+while IFS=',' read -r gtype mingb primary fast; do
+  [[ "$gtype" == "gpu_type" || -z "$gtype" ]] && continue       # skip header / blank
+  [[ "$gtype" == "$LOOKUP" ]] || continue
+  if (( CAP >= mingb )); then PRIMARY="$primary"; FAST="$fast"; break; fi
+done < config/models.csv
+[[ -z "$PRIMARY" ]] && { PRIMARY="llama3.2:3b"; FAST="qwen3:1.7b"; }  # safety fallback
 
 echo "Primary model: $PRIMARY"
 echo "Fast/small model: $FAST"
@@ -191,12 +186,12 @@ brew --version
 ### 1.2 Core CLI Tools
 
 ```bash
-# Check and install only what's missing
-TOOLS=(ripgrep fzf bat lazygit starship mise just caddy zellij duckdb)
+# Core tools come from config/tools.csv (single source of truth: id,check,scoop,brew)
 MISSING=()
-for t in "${TOOLS[@]}"; do
-  command -v $t &>/dev/null || MISSING+=($t)
-done
+while IFS=',' read -r id check scoop brew; do
+  [[ "$id" == "id" || -z "$id" ]] && continue                   # skip header / blank
+  command -v "$check" &>/dev/null || MISSING+=("$brew")
+done < config/tools.csv
 
 if [[ ${#MISSING[@]} -gt 0 ]]; then
   echo "Installing: ${MISSING[*]}"
@@ -415,25 +410,15 @@ command -v autoskills &>/dev/null || npm install -g autoskills
 echo "✓ autoskills available — run 'npx autoskills' in any project"
 ```
 
-### 3.4 antigravity-awesome-skills
+### 3.4 Skills & Agents — pinned allowlist
+
+> Installs ONLY the curated, pinned, **SHA-256-verified** allowlist in `skills-lock.json` — no bulk
+> install. Skills (impeccable, emil) and a reviewed agent subset (wshobson / dl-ezo / VoltAgent) are
+> fetched at pinned commit SHAs and verified. Plugins/MCP (superpowers, codex, spec-kit, github /
+> trivy / semgrep MCP) are printed as the `claude` commands to run (some need browser auth).
 
 ```bash
-if [[ ! -d ~/.claude/skills ]] || [[ $(ls ~/.claude/skills 2>/dev/null | wc -l) -lt 100 ]]; then
-  npx antigravity-awesome-skills --claude 2>&1 | tail -5
-else
-  echo "✓ Skills already installed ($(ls ~/.claude/skills | wc -l) dirs)"
-fi
-```
-
-### 3.5 agency-agents
-
-```bash
-if [[ ! -d ~/.claude/agents ]] || [[ $(ls ~/.claude/agents 2>/dev/null | wc -l) -lt 10 ]]; then
-  git clone https://github.com/msitarzewski/agency-agents /tmp/agency-agents 2>&1 | tail -3
-  bash /tmp/agency-agents/scripts/install.sh --tool claude-code 2>&1 | tail -5
-else
-  echo "✓ Agents already installed ($(ls ~/.claude/agents | wc -l) agents)"
-fi
+bash scripts/install-skills.sh
 ```
 
 ### 3.6 Superpowers (obra)
@@ -452,15 +437,6 @@ echo "Note: also works with Codex CLI natively — uses same ~/.claude/skills/ f
 npx skills add pbakaus/impeccable  2>&1 | tail -3
 npx skills add emilkowalski/skill  2>&1 | tail -3
 echo "→ Manual step queued: run /teach-impeccable once per new project"
-```
-
-### 3.8 flow-nexus MCP
-
-```bash
-echo "=== Flow Nexus ==="
-echo "→ MANUAL STEP QUEUED — run in terminal:"
-echo "   npx flow-nexus@latest init -n 'dev-environment' -t swarm --claude"
-echo "   Select: Local development only (no account)"
 ```
 
 **Phase 3 complete. Log to SETUP_LOG.md.**
@@ -701,105 +677,32 @@ fi
 **Ask user: name, role, and primary use cases before writing.**
 
 ```bash
-# Claude: collect from user before running:
-# - NAME (first name)
-# - ROLE (e.g. Developer / Researcher / Builder)
-# - USE_CASE_1, USE_CASE_2, USE_CASE_3
-# Then substitute below.
-
-# Detect primary and fast models from Step 0 (or use defaults)
-PRIMARY=${PRIMARY:-"qwen3:8b"}
-FAST=${FAST:-"llama3.2:3b"}
-RAM_GB=${RAM_GB:-16}
+# Renders the single CLAUDE.md template (templates/CLAUDE.md.tmpl) — do NOT keep a second
+# copy of CLAUDE.md content here. Optionally ask the user for NAME / ROLE / USE_CASE_* first.
+PRIMARY=${PRIMARY:-"qwen3:8b"}; FAST=${FAST:-"llama3.2:3b"}; RAM_GB=${RAM_GB:-16}
+NAME="${NAME:-[Fill in your name]}"
+ROLE="${ROLE:-Developer / Researcher / Builder}"
+UC1="${USE_CASE_1:-Building AI-powered apps and tools}"
+UC2="${USE_CASE_2:-Building and maintaining knowledge bases}"
+UC3="${USE_CASE_3:-Deep technical research}"
+MACHINE_CPU="$(uname -m) — $(sysctl -n machdep.cpu.brand_string 2>/dev/null || uname -s)"
+MACHINE_OS="$(uname -s) $(uname -r)"
+MACHINE_SHELL="$(basename "$SHELL")"
+MACHINE_GPU="${GPU_LABEL:-detected at setup}"
 
 mkdir -p ~/.claude
-cat > ~/.claude/CLAUDE.md << EOF
-# Global Claude Code Context
+sed -e "s|{{NAME}}|$NAME|g" \
+    -e "s|{{ROLE}}|$ROLE|g" \
+    -e "s|{{USE_CASE_1}}|$UC1|g" -e "s|{{USE_CASE_2}}|$UC2|g" -e "s|{{USE_CASE_3}}|$UC3|g" \
+    -e "s|{{MACHINE_CPU}}|$MACHINE_CPU|g" \
+    -e "s|{{MACHINE_RAM_GB}}|$RAM_GB|g" \
+    -e "s|{{MACHINE_GPU}}|$MACHINE_GPU|g" \
+    -e "s|{{MACHINE_OS}}|$MACHINE_OS|g" \
+    -e "s|{{MACHINE_SHELL}}|$MACHINE_SHELL|g" \
+    -e "s|{{PRIMARY_MODEL}}|$PRIMARY|g" -e "s|{{FAST_MODEL}}|$FAST|g" \
+    templates/CLAUDE.md.tmpl > ~/.claude/CLAUDE.md
 
-## Who I Am
-Name: [NAME]
-Role: [ROLE]
-Primary use cases:
-1. [USE_CASE_1]
-2. [USE_CASE_2]
-3. [USE_CASE_3]
-
-## My Machine
-- $(uname -m) — $(sysctl -n machdep.cpu.brand_string 2>/dev/null || uname -s)
-- RAM: ${RAM_GB}GB
-- OS: $(uname -s) $(uname -r)
-- Shell: $(basename $SHELL) with starship prompt
-
-## My Tech Stack
-- Runtimes: Node LTS, Python 3.12, Bun (via mise)
-- Package managers: uv (Python), bun/npm (JS)
-- AI tools: Claude Code, Codex CLI, Aider (local Ollama), Ollama
-- Agent orchestration: Ruflo + ruv-swarm
-- Knowledge base: Obsidian vault at ~/vault/
-- Secrets: Infisical (replaces .env files)
-- Version control: git with gitleaks pre-commit hook
-
-## Available MCP Servers
-- vault: ~/vault/ — personal knowledge base
-- ruflo: multi-agent orchestration
-- ruv-swarm: swarm-mode agent coordination
-
-## Installed Skills
-- antigravity-awesome-skills: 1,400+ skills across security, DevOps, observability
-- impeccable: typography, layout, anti-pattern enforcement
-- emilkowalski/skill: motion and animation
-- agency-agents: 200+ specialized agent personas at ~/.claude/agents/
-
-## How I Work Best
-- Show me what you're going to do before doing it
-- Ask before modifying existing files
-- Batch related tasks into one message
-- Use /goal for autonomous tasks with a clear finish line
-- Prefer uv for Python deps, bun for JS deps
-- Spec-kit workflow for new projects: specify → clarify → plan → tasks → implement
-
-## IRON RULES
-- Never commit secrets, API keys, or credentials
-- Never run destructive operations without confirmation
-- Always run gitleaks protect --staged before committing
-- Run /codex:adversarial-review on any plan longer than 5 steps before implementing
-- Spend 30-90 minutes planning before writing code — implementation is the easy part
-
-## Model Selection Guide
-- Claude Code: copywriting, design thinking, architecture, creative coding patterns (Claude Pro subscription)
-- Codex: surgical precision, targeted changes, auditing, plan review (ChatGPT Plus subscription)
-- Aider: ollama/${PRIMARY} by default — free, local, no quota
-- Free fallback: ollama run ${FAST} — fastest local inference
-
-## Claude + Codex Dynamic Duo Patterns
-- Pattern 1 — Code Review: /codex:review (read-only, non-steerable)
-- Pattern 2 — Adversarial Planning: /codex:adversarial-review [plan] (devil's advocate before building)
-- Pattern 3 — Background Audit: /codex:rescue --background (Codex audits, Claude keeps building)
-- Pattern 4 — Pre-Ship Gate: /codex:rescue (security, privacy, data exposure before shipping)
-- Pattern 5 — Full Loop: Claude plans → Codex reviews → Claude refines → repeat → implement
-
-## Codex Slash Commands
-- /codex:review — read-only code audit
-- /codex:adversarial-review — targeted plan review
-- /codex:rescue — full codebase audit (add --background to run async)
-- /codex:status / /codex:result — check and retrieve background jobs
-
-## Auth Notes
-- Claude Code: Claude Pro OAuth (not API key)
-- Codex CLI: ChatGPT Plus OAuth (not API key)
-- Aider: local Ollama (free) — API keys optional
-- Subscription quotas shared with web usage — heavy web chat reduces CLI quota
-
-## Knowledge Base
-Vault at ~/vault/ — use MCP server to read/write notes
-AGENTS.md at ~/vault/AGENTS.md describes vault structure
-
-## Ruflo Integration
-When working on multi-file tasks, use ToolSearch to find and invoke ruflo MCP tools.
-Key tools: memory_store, memory_search, hooks_route, swarm_init, agent_spawn.
-EOF
-
-echo "✓ ~/.claude/CLAUDE.md written"
+echo "✓ ~/.claude/CLAUDE.md rendered from templates/CLAUDE.md.tmpl"
 ```
 
 **Phase 6 complete. Log to SETUP_LOG.md.**
@@ -850,10 +753,6 @@ echo "║     /plugin install ruflo-autopilot@ruflo                    ║"
 echo "║     /plugin install ruflo-testgen@ruflo                      ║"
 echo "║     /plugin install ruflo-adr@ruflo                          ║"
 echo "║     /plugin install ruflo-intelligence@ruflo                 ║"
-echo "║                                                              ║"
-echo "║  7. Flow Nexus (in terminal, not inside claude):             ║"
-echo "║     npx flow-nexus@latest init -n dev -t swarm --claude      ║"
-echo "║     → Select: Local development only (no account)            ║"
 echo "║                                                              ║"
 echo "║  8. Obsidian: download from obsidian.md                      ║"
 echo "║     → Open ~/vault/ as vault                                 ║"
@@ -984,11 +883,6 @@ No API keys required — Claude Code and Codex both authenticate via OAuth.
 
 ## LLM SELECTION REFERENCE
 
-| RAM | Apple Silicon | NVIDIA GPU | CPU Only |
-|-----|--------------|------------|----------|
-| 8 GB | llama3.2:3b | phi4-mini | llama3.2:3b |
-| 16 GB | **qwen3:8b** + llama3.2:3b | **qwen3:8b** + llama3.2:3b | llama3.2:3b |
-| 32 GB | **qwen3:14b** + qwen3:8b | **qwen3:14b** + qwen3:8b | qwen3:8b |
-| 64 GB+ | **qwen3:32b** + qwen3:14b | **qwen3:32b** + qwen3:14b | qwen3:14b |
-
-Bold = primary model set in `~/.aider.conf.yml` and CLAUDE.md.
+Model tiers are defined once in `config/models.csv` (`gpu_type,min_gb,primary,fast`) and read by
+both installers. nvidia selects on VRAM; apple_silicon / cpu_only select on RAM; amd → cpu_only.
+Edit `config/models.csv` to change recommendations — do not re-add a table here.
