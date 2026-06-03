@@ -1,0 +1,385 @@
+# Instincts generated from https://github.com/eldestar/ai-dev-setup
+# Generated: 2026-06-03T02:43:20.667Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: ai-dev-setup-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: feat, docs, fix, test
+
+## Evidence
+
+- 6 commits analyzed
+- Detected conventional commit pattern
+- Examples: feat(lock): bump to v3 — add tier/bundle registries, tag all entries, fix(lock): pin github MCP to @2025.4.8 (remove unpinned npx -y)
+
+---
+id: ai-dev-setup-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Commit Length
+
+## Action
+
+Write moderate-length commit messages (~67 characters)
+
+## Evidence
+
+- Average commit message length: 67 chars
+- Based on 6 commits
+
+---
+id: ai-dev-setup-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Naming Files
+
+## Action
+
+Use snake_case naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: snake_case
+
+---
+id: ai-dev-setup-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: ai-dev-setup-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: ai-dev-setup-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: ai-dev-setup-workflow-update-skills-lock-and-verified-skills-doc
+trigger: "when doing update skills lock and verified skills doc"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Workflow Update Skills Lock And Verified Skills Doc
+
+## Action
+
+Follow the update-skills-lock-and-verified-skills-doc workflow:
+1. Edit skills-lock.json to add or update skill entries.
+2. Update docs/VERIFIED_SKILLS_LIBRARY.md to reflect the changes in skills, tiers, or bundles.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: skills-lock.json, docs/VERIFIED_SKILLS_LIBRARY.md
+
+---
+id: ai-dev-setup-instinct-file-naming
+trigger: "When creating or renaming a file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct File Naming
+
+## Action
+
+Use snake_case for file names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.files
+- All referenced files use snake_case
+
+---
+id: ai-dev-setup-instinct-function-naming
+trigger: "When defining a function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Function Naming
+
+## Action
+
+Use camelCase for function names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.functions
+
+---
+id: ai-dev-setup-instinct-class-naming
+trigger: "When defining a class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Class Naming
+
+## Action
+
+Use PascalCase for class names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.classes
+
+---
+id: ai-dev-setup-instinct-constant-naming
+trigger: "When defining a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Constant Naming
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.constants
+
+---
+id: ai-dev-setup-instinct-import-style
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Import Style
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in codeStyle.importStyle
+
+---
+id: ai-dev-setup-instinct-export-style
+trigger: "When exporting modules or functions"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in codeStyle.exportStyle
+
+---
+id: ai-dev-setup-instinct-test-location
+trigger: "When adding tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Test Location
+
+## Action
+
+Place test files in the 'tests' folder, separate from source code
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+- Presence of 'tests' folder
+
+---
+id: ai-dev-setup-instinct-test-schema
+trigger: "When writing tests for schema or registry files"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Test Schema
+
+## Action
+
+Write smoke tests to assert schema validity (e.g., for skills-lock.json)
+
+## Evidence
+
+- test(smoke): assert skills-lock.json v3 schema (tiers/bundles/tier fields)
+
+---
+id: ai-dev-setup-instinct-commit-format
+trigger: "When making a git commit"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Commit Format
+
+## Action
+
+Use conventional commit format: <type>(<scope>): <description>
+
+## Evidence
+
+- feat(lock): bump to v3 — add tier/bundle registries, tag all entries
+- fix(lock): pin github MCP to @2025.4.8 (remove unpinned npx -y)
+- docs: add SKILL_TIERS.md — tier semantics and promotion/deprecation guide
+- test(smoke): assert skills-lock.json v3 schema (tiers/bundles/tier fields)
+
+---
+id: ai-dev-setup-instinct-commit-types
+trigger: "When choosing a commit type"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Commit Types
+
+## Action
+
+Use only 'feat', 'fix', 'docs', or 'test' as commit type prefixes
+
+## Evidence
+
+- Pattern in commits.prefixes
+- All example commits use these types
+
+---
+id: ai-dev-setup-instinct-commit-length
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Commit Length
+
+## Action
+
+Keep commit message length around 67 characters on average
+
+## Evidence
+
+- Pattern in commits.averageLength
+
+---
+id: ai-dev-setup-instinct-update-skill-registry
+trigger: "When someone adds a new skill or updates skill metadata in the registry"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: eldestar/ai-dev-setup
+---
+
+# Ai Dev Setup Instinct Update Skill Registry
+
+## Action
+
+Edit skills-lock.json and update docs/VERIFIED_SKILLS_LIBRARY.md to reflect changes
+
+## Evidence
+
+- Workflow: update-skills-lock-and-verified-skills-doc
+- Commits: Edit skills-lock.json to add or update skill entries. Update docs/VERIFIED_SKILLS_LIBRARY.md to reflect the changes in skills, tiers, or bundles.
+
