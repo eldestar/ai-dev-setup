@@ -82,6 +82,17 @@
 | `strategic-compact` | ECC | `0852364a…` | context-compaction strategy |
 | `agent-eval` | ECC | `d1c64d44…` | head-to-head coding-agent benchmarking |
 
+### Skills — Tier-0 first-party (anthropics/skills @ da20c92, sha256-pinned)
+> First-party Anthropic skills, pinned explicitly with SHA-256 anchors. `claude-api` is an audit Tier-0 target; the doc skills satisfy the audit's "make Anthropic doc-skills explicit sha256 entries". (mcp-builder/skill-creator intentionally NOT dup-pinned — available via the anthropics-skills plugin.)
+
+| Skill | Tier | Bundle | sha256 anchor | Use |
+|---|---|---|---|---|
+| `claude-api` | core | ai-llm | `68996765…` | Build/debug/optimize Claude API + SDK apps |
+| `docx` | curated | doc-skills | `1c4df720…` | Word document generation |
+| `pdf` | curated | doc-skills | `06740122…` | PDF generation/processing |
+| `pptx` | curated | doc-skills | `5d91c30e…` | PowerPoint generation |
+| `xlsx` | curated | doc-skills | `7de127f8…` | Excel generation |
+
 ---
 
 ## Proposed additions (from the audit — review before adding to the lock)
