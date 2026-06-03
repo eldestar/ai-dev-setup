@@ -27,6 +27,21 @@
 | dl-ezo | core | dev-loop-agents | dl-ezo/claude-code-sub-agents | `532213d…` | MIT | design-reviewer, test-suite-generator |
 | voltagent | core | dev-loop-agents | VoltAgent/awesome-claude-code-subagents | `2f9cf8b…` | MIT | compliance-auditor, error-detective, dx-optimizer, dependency-manager, git-workflow-manager |
 
+### Agents — Tier-0 specialists (curated, batch 1)
+> From `wshobson/agents` @ `0818067` (same trusted source as the core agents). Pinned by commit + path (no sha256, per the agent model). Map to Benjamin's stack.
+
+| Target file | Bundle | wshobson path |
+|---|---|---|
+| `wshobson-python-pro.md` | dev-core | plugins/python-development/agents/python-pro.md |
+| `wshobson-typescript-pro.md` | dev-core | plugins/javascript-typescript/agents/typescript-pro.md |
+| `wshobson-javascript-pro.md` | dev-core | plugins/javascript-typescript/agents/javascript-pro.md |
+| `wshobson-rust-pro.md` | dev-core | plugins/systems-programming/agents/rust-pro.md |
+| `wshobson-golang-pro.md` | dev-core | plugins/systems-programming/agents/golang-pro.md |
+| `wshobson-fastapi-pro.md` | dev-core | plugins/python-development/agents/fastapi-pro.md |
+| `wshobson-frontend-developer.md` | dev-core | plugins/frontend-mobile-development/agents/frontend-developer.md |
+| `wshobson-ai-engineer.md` | ai-llm | plugins/llm-application-dev/agents/ai-engineer.md |
+| `wshobson-prompt-engineer.md` | ai-llm | plugins/llm-application-dev/agents/prompt-engineer.md |
+
 ### Plugins / MCP (install via `claude`)
 | Name | Tier | Bundle | Source | Ref | Notes |
 |---|---|---|---|---|---|
