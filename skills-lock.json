@@ -1,9 +1,26 @@
 {
-  "version": 2,
-  "description": "Authoritative pinned allowlist. Installers install ONLY these, each pinned to a commit SHA (these repos publish no tags). Replaces the removed bulk install. Source of truth: docs/VERIFIED_SKILLS_LIBRARY.md.",
+  "version": 3,
+  "description": "Authoritative pinned allowlist. Installers install ONLY these, each pinned to a commit SHA. Source of truth: docs/VERIFIED_SKILLS_LIBRARY.md.",
+  "tiers": {
+    "core":         { "default": true,  "description": "pinned + SHA-verified; always installed" },
+    "curated":      { "default": true,  "description": "vetted bundles; opt-out per bundle" },
+    "experimental": { "default": false, "description": "trial; opt-in only" },
+    "archived":     { "default": false, "description": "deprecated-but-retained; --include-archived" }
+  },
+  "bundles": {
+    "frontend-design":    { "tier": "core",    "description": "UI/UX and motion design skills" },
+    "dev-loop-agents":    { "tier": "core",    "description": "code-review, test, DX, git agents" },
+    "platform-dx":        { "tier": "core",    "description": "plugins and MCP core dev-experience" },
+    "dev-core":           { "tier": "curated", "description": "language + framework specialists" },
+    "ai-llm":             { "tier": "curated", "description": "RAG, prompting, LLM engineering" },
+    "security-defensive": { "tier": "curated", "description": "defensive security skills + agents" },
+    "devops":             { "tier": "curated", "description": "Docker, k8s, Terraform, observability" }
+  },
   "skills": [
     {
       "name": "emil-design-eng",
+      "tier": "core",
+      "bundle": "frontend-design",
       "repo": "https://github.com/emilkowalski/skill",
       "ref": "ecf66bbd1fb33c25332b6b0e454d08049978284c",
       "from": "skills/emil-design-eng",
@@ -14,6 +31,8 @@
     },
     {
       "name": "impeccable",
+      "tier": "core",
+      "bundle": "frontend-design",
       "repo": "https://github.com/pbakaus/impeccable",
       "ref": "69b5f3af49fc15240a4dcc735f3eceb95258492f",
       "from": ".claude/skills/impeccable",
@@ -25,6 +44,8 @@
   "agents": [
     {
       "source": "wshobson",
+      "tier": "core",
+      "bundle": "dev-loop-agents",
       "repo": "https://github.com/wshobson/agents",
       "ref": "0818067b4ecad18c234b2ae427cc44f2053792d4",
       "license": "MIT",
@@ -38,6 +59,8 @@
     },
     {
       "source": "dlezo",
+      "tier": "core",
+      "bundle": "dev-loop-agents",
       "repo": "https://github.com/dl-ezo/claude-code-sub-agents",
       "ref": "532213dba7d4e6e9a15c95a025861c29dee9e459",
       "license": "MIT",
@@ -48,6 +71,8 @@
     },
     {
       "source": "voltagent",
+      "tier": "core",
+      "bundle": "dev-loop-agents",
       "repo": "https://github.com/VoltAgent/awesome-claude-code-subagents",
       "ref": "2f9cf8b9562dcc235cc2296bda6df82d60e800be",
       "license": "MIT",
@@ -61,16 +86,16 @@
     }
   ],
   "plugins": [
-    { "name": "claude-plugins-official", "marketplace": "anthropics/claude-plugins-official", "ref": "bf7e85273119dc0bdca41c81dbb1289e6efb3a60", "note": "Anthropic-curated marketplace; install desired plugins from it" },
-    { "name": "superpowers", "marketplace": "obra/superpowers-marketplace", "ref": "af4c8d88b6d99926493709ade76f4369f9132390", "plugin": "superpowers@superpowers-marketplace" },
-    { "name": "codex", "marketplace": "openai/codex-plugin-cc", "ref": "807e03ac9d5aa23bc395fdec8c3767500a86b3cf", "plugin": "codex@openai-codex", "setup": "/codex:setup" },
-    { "name": "security-review", "repo": "anthropics/claude-code-security-review", "ref": "0c6a49f1fa56a1d472575da86a94dbc1edb78eda", "note": "first-party /security-review" },
-    { "name": "anthropics-skills", "repo": "anthropics/skills", "ref": "da20c92503b2e8ff1cf28ca81a0df4673debdbf7", "note": "doc skills are source-available; review before enterprise use" },
-    { "name": "spec-kit", "repo": "github/spec-kit", "ref": "ed10b32014431a15c4e54e4ed7c92452230dd193", "install": "uv tool install specify-cli --from git+https://github.com/github/spec-kit.git" }
+    { "name": "claude-plugins-official", "tier": "core", "bundle": "platform-dx", "marketplace": "anthropics/claude-plugins-official", "ref": "bf7e85273119dc0bdca41c81dbb1289e6efb3a60", "note": "Anthropic-curated marketplace; install desired plugins from it" },
+    { "name": "superpowers",             "tier": "core", "bundle": "platform-dx", "marketplace": "obra/superpowers-marketplace",        "ref": "af4c8d88b6d99926493709ade76f4369f9132390", "plugin": "superpowers@superpowers-marketplace" },
+    { "name": "codex",                   "tier": "core", "bundle": "platform-dx", "marketplace": "openai/codex-plugin-cc",              "ref": "807e03ac9d5aa23bc395fdec8c3767500a86b3cf", "plugin": "codex@openai-codex", "setup": "/codex:setup" },
+    { "name": "security-review",         "tier": "core", "bundle": "security-defensive", "repo": "anthropics/claude-code-security-review", "ref": "0c6a49f1fa56a1d472575da86a94dbc1edb78eda", "note": "first-party /security-review" },
+    { "name": "anthropics-skills",       "tier": "core", "bundle": "platform-dx", "repo": "anthropics/skills",                         "ref": "da20c92503b2e8ff1cf28ca81a0df4673debdbf7", "note": "doc skills source-available; review before enterprise use" },
+    { "name": "spec-kit",                "tier": "core", "bundle": "platform-dx", "repo": "github/spec-kit",                           "ref": "ed10b32014431a15c4e54e4ed7c92452230dd193", "install": "uv tool install specify-cli --from git+https://github.com/github/spec-kit.git" }
   ],
   "mcp": [
-    { "name": "github", "cmd": "claude mcp add github -- npx -y @modelcontextprotocol/server-github", "note": "needs a scoped GitHub PAT (env GITHUB_PERSONAL_ACCESS_TOKEN)" },
-    { "name": "trivy", "cmd": "trivy mcp", "note": "fully local vuln/secret/misconfig scanning (Aqua official plugin)" },
-    { "name": "semgrep", "cmd": "claude mcp add semgrep -- semgrep mcp", "note": "fully local SAST via the semgrep binary's MCP" }
+    { "name": "github",  "tier": "core", "bundle": "platform-dx", "cmd": "claude mcp add github -- npx -y @modelcontextprotocol/server-github", "note": "TODO: pin to @version — see Task 7" },
+    { "name": "trivy",   "tier": "core", "bundle": "security-defensive", "cmd": "trivy mcp", "note": "fully local vuln/secret/misconfig scanning (Aqua official plugin)" },
+    { "name": "semgrep", "tier": "core", "bundle": "security-defensive", "cmd": "claude mcp add semgrep -- semgrep mcp", "note": "fully local SAST via the semgrep binary's MCP" }
   ]
 }
