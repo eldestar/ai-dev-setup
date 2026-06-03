@@ -20,7 +20,7 @@ echo "  OS: $(uname -s) $(uname -r)   Arch: $(uname -m)"
 echo ""
 echo "=== Tools ==="
 core=""
-while IFS=',' read -r id chk scoop brew; do
+while IFS=',' read -r id chk _; do
   { [ "$id" = "id" ] || [ -z "$id" ]; } && continue
   core="$core $chk"
 done < "$REPO_ROOT/config/tools.csv"
