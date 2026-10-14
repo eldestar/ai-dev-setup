@@ -147,7 +147,7 @@ scoop bucket add extras
 scoop install ollama
 
 # Note: mise on Windows — add to PowerShell profile:
-# Invoke-Expression (&mise activate powershell)
+# (&mise activate pwsh) | Out-String | Invoke-Expression
 ```
 
 **Windows users:** After Phase 0b, continue with Phase 1 inside your chosen environment (WSL2 terminal or PowerShell).
@@ -274,10 +274,11 @@ pipx --version
 
 ```bash
 if ! command -v claude &>/dev/null; then
-  npm install -g @anthropic-ai/claude-code
+  # Native installer (recommended by Anthropic); see https://code.claude.com/docs/en/setup
+  curl -fsSL https://claude.ai/install.sh | bash
 fi
 claude --version
-echo "→ Manual step queued: claude login"
+echo "→ Manual step queued: run claude once and sign in"
 ```
 
 ### 2.2 Ollama + Auto-Selected Models
@@ -597,7 +598,7 @@ if [[ ! -f ~/.git-hooks/pre-commit ]]; then
   mkdir -p ~/.git-hooks
   cat > ~/.git-hooks/pre-commit << 'HOOK'
 #!/bin/sh
-gitleaks protect --staged --no-banner
+gitleaks git --staged --no-banner
 HOOK
   chmod +x ~/.git-hooks/pre-commit
   echo "✓ gitleaks pre-commit hook installed globally"
@@ -725,7 +726,7 @@ echo "║                                                              ║"
 echo "║  1. Open a fresh terminal tab (activates mise, starship,     ║"
 echo "║     bun, fzf, aliases from ~/.zshrc)                        ║"
 echo "║                                                              ║"
-echo "║  2. claude login                                             ║"
+echo "║  2. run claude, sign in                                      ║"
 echo "║     → Browser opens → sign in with Claude Pro account        ║"
 echo "║                                                              ║"
 echo "║  3. codex  (first run)                                       ║"
@@ -844,7 +845,7 @@ rg "search term" ~/vault/
 /codex:result                     # get results
 
 # Security before commit
-gitleaks protect --staged
+gitleaks git --staged
 trivy fs .
 semgrep --config=p/security .
 

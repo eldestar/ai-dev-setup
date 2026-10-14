@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — documentation and licensing pass
+### Changed
+- Added an MIT `LICENSE`; README and `SECURITY.md` state it.
+- Corrected `SECURITY.md`: bootstrap installers are not pinned, and agents are pinned by commit and path without sha256.
+- README: dropped the unbacked `ruv-swarm` claim, marked Intel macOS and Windows as untested, replaced `irm | iex` with download, read, run, and added known limitations.
+- Claude Code install now points at Anthropic's current instructions; `gitleaks protect` replaced by `gitleaks git`; fixed the PowerShell `mise activate` line.
+- CI: `permissions: contents: read`.
+### Removed
+- Personal-machine documents (device reference guide, skill audit, plans) were removed from the repository.
+
 ## v2.4.0 — 2026-06-02 — P0 Sprint 3 (preflight, tests, CI, docs)
 ### Added
 - `scripts/doctor.{sh,ps1}`: read-only preflight + skill/agent audit vs the lock. `runners/install.ps1 -Check` runs it.

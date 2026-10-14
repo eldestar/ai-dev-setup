@@ -199,7 +199,7 @@ if (-not (Test-Path $hookFile)) {
     New-Item -ItemType Directory -Path $hooksDir -Force | Out-Null
     git config --global core.hooksPath ($hooksDir -replace "\\", "/")
     # Git for Windows executes pre-commit as a shell script via sh.exe
-    "#!/bin/sh`ngitleaks protect --staged --no-banner" | Out-File -FilePath $hookFile -Encoding ascii -NoNewline
+    "#!/bin/sh`ngitleaks git --staged --no-banner" | Out-File -FilePath $hookFile -Encoding ascii -NoNewline
     Write-OK "gitleaks pre-commit hook installed at $hooksDir"
 } else {
     Write-OK "Pre-commit hook already installed"

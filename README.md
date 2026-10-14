@@ -15,23 +15,23 @@ A single executable spec (`SETUP.md`) that Claude Code reads and runs to configu
 | Package managers | uv, pipx, bun, npm |
 | AI coding | Claude Code, Codex CLI, Aider, Ollama |
 | Local LLMs | Auto-selected based on device RAM + GPU |
-| Agent orchestration | Ruflo, ruv-swarm |
+| Agent orchestration | Ruflo |
 | Skills & agents | Curated, pinned allowlist (see `skills-lock.json`) |
 | Knowledge base | ~/vault/ structure + MCP server + Obsidian templates |
 | Security | gitleaks (pre-commit hook), trivy, semgrep |
 | Secrets | Infisical |
-| App building | PocketBase, Caddy, spec-kit, newproject command |
+| App building | PocketBase, Caddy, spec-kit, newproject command (macOS and WSL; not installed on native Windows) |
 
 ## Quick Start (New Device)
 
 ### Mac
 
 ```bash
-# Install Claude Code first
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install node
-npm install -g @anthropic-ai/claude-code
-claude login
+# 1. Install Homebrew (read the script first if you prefer): https://brew.sh
+# 2. Install Claude Code using Anthropic's current instructions:
+#    https://code.claude.com/docs/en/setup  (the native installer is the recommended route)
+# 3. Start it once and sign in:
+claude
 
 # Then run setup
 git clone https://github.com/eldestar/ai-dev-setup.git
@@ -45,16 +45,18 @@ Log everything to SETUP_LOG.md."
 ### Windows
 
 ```powershell
-# Run in PowerShell (no admin required)
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm https://raw.githubusercontent.com/eldestar/ai-dev-setup/main/setup-windows.ps1 | iex
+# Run in PowerShell (no admin required). Download it, read it, then run it:
+Invoke-WebRequest https://raw.githubusercontent.com/eldestar/ai-dev-setup/main/setup-windows.ps1 -OutFile setup-windows.ps1
+Get-Content .\setup-windows.ps1
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser   # allows running local scripts
+.\setup-windows.ps1
 ```
 
 The script detects your hardware (RAM + GPU), recommends the right local LLM, then asks:
 - **WSL2** (recommended) — full Linux environment, all tools work identically to Mac
 - **Native PowerShell** — installs everything via Scoop, works with reduced functionality on some tools
 
-Both paths print a manual-steps checklist at the end for the things that require browser auth (Claude login, Codex login, plugin installs).
+The manual steps that need a browser (Claude and Codex sign-in, plugin installs) are listed in `SETUP.md`. The native PowerShell path prints them at the end; the WSL path does not, so follow `SETUP.md` inside the WSL shell.
 
 ### Re-run on Existing Device (fix / update)
 ```bash
@@ -68,10 +70,10 @@ Log changes to SETUP_LOG.md."
 
 | Platform | Status | Path |
 |----------|--------|------|
-| macOS Apple Silicon | ✓ Primary | Homebrew + zsh |
-| macOS Intel | ✓ Supported | Homebrew + zsh |
-| Windows (WSL2) | ✓ Supported | `setup-windows.ps1` → WSL2 → SETUP.md |
-| Windows (Native) | ✓ Supported | `setup-windows.ps1` → Scoop + PowerShell |
+| macOS Apple Silicon | Primary; the bash smoke test passes in CI | Homebrew + zsh |
+| macOS Intel | Untested | Homebrew + zsh |
+| Windows (WSL2) | Untested in CI | `setup-windows.ps1` → WSL2 → SETUP.md |
+| Windows (Native) | Untested in CI | `setup-windows.ps1` → Scoop + PowerShell |
 
 ## Local LLM Selection
 
@@ -120,7 +122,7 @@ aider                        # uses auto-selected Ollama model
 ollama run qwen3:8b          # direct REPL
 
 # Security before every commit (also runs automatically via hook)
-gitleaks protect --staged
+gitleaks git --staged
 trivy fs .
 
 # Runtime switching
@@ -141,14 +143,20 @@ duckdb -c "SELECT * FROM 'file.csv' LIMIT 10"
 | Quota is low / working offline | `aider` (local Ollama) |
 | Quick one-off question | `ollama run qwen3:8b` |
 
-→ Full tool-by-tool reference and workflow examples: **[DEV_ENVIRONMENT_GUIDE.md](DEV_ENVIRONMENT_GUIDE.md)**
+→ What each component is and why it is there: **[docs/COMPONENT_MATRIX.md](docs/COMPONENT_MATRIX.md)**
 
 ## Files
 
 | File | Purpose |
 |------|---------|
 | `SETUP.md` | Executable setup spec — feed to Claude Code |
-| `DEV_ENVIRONMENT_GUIDE.md` | Complete reference: every tool, every workflow |
+| `config/tools.csv`, `config/models.csv` | The tool list and local-model tiers both installers read |
+| `skills-lock.json` | Pinned skills and agents allowlist |
+| `SECURITY.md` | Trust model and what is deliberately not done |
+| `docs/COMPONENT_MATRIX.md` | Every component, why it is installed, and how to remove it |
+| `docs/TROUBLESHOOTING.md`, `docs/UNINSTALL.md` | When something goes wrong, and how to undo |
+| `docs/SKILL_TIERS.md`, `docs/VERIFIED_SKILLS_LIBRARY.md` | How skills are tiered and which are verified |
+| `docs/adr/` | Decision records |
 | `CHANGELOG.md` | What changed between versions |
 
 ## Economics
@@ -163,6 +171,14 @@ duckdb -c "SELECT * FROM 'file.csv' LIMIT 10"
 
 *Feed `SETUP.md` to Claude Code. It does the rest.*
 
-## License / Status
+## Known limitations
 
-Personal project — **all rights reserved**. Not licensed for redistribution or third-party use. (No open-source license is granted; if that ever changes, an explicit `LICENSE` will be added.)
+- No installer has been run end to end in CI. CI runs shellcheck and a bash smoke test, plus PowerShell analysis and a smoke test; the PowerShell installer path has not been exercised on a real Windows machine for this revision.
+- Some bootstrap steps use the vendors' own install scripts (Homebrew, Claude Code, Ollama). This repo does not pin or checksum them; read them first.
+- Several install steps use `@latest` (for example `ruflo`) or unpinned packages. `skills-lock.json` pins skills and agents by commit; agents carry no sha256.
+- `skills-lock.json` still lists an MCP server (`@modelcontextprotocol/server-github`) that its publisher has deprecated, and two MCP entries (trivy, semgrep) whose launch commands were not re-verified.
+- Some steps overwrite existing config (aider config, `core.hooksPath`) without asking.
+
+## License
+
+MIT, see `LICENSE`. Third-party skills and agents pinned in `skills-lock.json` keep their own licenses.

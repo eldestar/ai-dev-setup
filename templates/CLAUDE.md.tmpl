@@ -19,7 +19,7 @@ Primary use cases:
 - Runtimes: Node LTS, Python 3.12, Bun (via mise)
 - Package managers: uv (Python), bun/npm (JS)
 - AI tools: Claude Code, Codex CLI, Aider (local Ollama), Ollama
-- Agent orchestration: Ruflo + ruv-swarm
+- Agent orchestration: Ruflo
 - Knowledge base: Obsidian vault at ~/vault/
 - Secrets: Infisical (replaces .env files)
 - Version control: git with gitleaks pre-commit hook
@@ -45,7 +45,7 @@ Curated, pinned allowlist (see skills-lock.json) — not a bulk install.
 ## IRON RULES
 - Never commit secrets, API keys, or credentials
 - Never run destructive operations without confirmation
-- Always run gitleaks protect --staged before committing
+- Always run gitleaks git --staged before committing
 - Run /codex:adversarial-review on any plan longer than 5 steps before implementing
 - Spend 30-90 minutes planning before writing code — implementation is the easy part
 

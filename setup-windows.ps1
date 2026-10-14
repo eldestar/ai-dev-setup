@@ -52,7 +52,7 @@ function Invoke-AiDevBootstrap {
             Write-Host '    claude "Read SETUP.md, run system detection, execute all phases. Log to SETUP_LOG.md."'
             Write-Host ""
             $restart = Read-Host "  Restart now? [y/N]"
-            if ($restart -match "^[Yy]") { Restart-Computer -Force }
+            if ($restart -match "^[Yy]") { Restart-Computer }
             return
         }
         Write-Info "Cloning/updating repo inside WSL2..."

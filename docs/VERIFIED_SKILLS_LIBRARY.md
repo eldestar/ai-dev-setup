@@ -97,7 +97,7 @@
 
 ## Proposed additions (from the audit — review before adding to the lock)
 
-### New net-value pins (verified, see [SKILL_AUDIT.md](SKILL_AUDIT.md))
+### New net-value pins (verified)
 | Item | Source | Pin style | Tier |
 |---|---|---|---|
 | OSV-Scanner MCP | google/osv-scanner | tool version + `osv-scanner mcp` | core security |
